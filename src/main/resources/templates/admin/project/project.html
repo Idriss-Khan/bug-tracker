@@ -1,0 +1,33 @@
+<!-- Include the sidebar -->
+<div th:replace="~{admin/includes/sidebar.html}"></div>
+
+<div class="button-section">
+    <a th:href="@{/admin/project/create}" class="button-link">Add Project</a>
+</div>
+
+
+<div class="bug-table">
+    <div class="bug-table-headings">
+        <div class="bug-heading">PROJECT</div>
+        <div class="bug-heading">STATUS</div>
+        <div class="bug-heading">STARTED</div>
+        <div class="bug-heading">DUE</div>
+        <div class="bug-heading">MANAGER</div>
+        <div class="bug-heading">VIEW</div>
+    </div>
+        <div class="bug-row" th:each="project : ${projects}">
+            <div class="bug-cell" th:text="${project.name}"></div>
+            <div class="bug-cell" th:text="${project.status}"></div>
+            <div class="bug-cell" th:text="${project.startDate}"></div>
+            <div class="bug-cell" th:text="${project.endDate}"></div>
+            <div class="bug-cell" th:text="${project.projectManager}"></div>
+            <div class="bug-cell">
+                <a class="btn btn-info" th:href="@{/admin/project/edit/{id}(id=${project.id})}">View</a>
+            </div>
+        </div>
+</div>
+
+
+
+<!-- Include the footer -->
+<div th:replace="~{admin/includes/footer.html}"></div>

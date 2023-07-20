@@ -1,4 +1,4 @@
-package com.example.bugtracker.Security;
+package com.example.bugtracker.security;
 
 import com.example.bugtracker.model.Role;
 import com.example.bugtracker.model.User;

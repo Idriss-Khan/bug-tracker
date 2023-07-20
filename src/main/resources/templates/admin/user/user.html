@@ -1,19 +1,7 @@
 <!-- Include the sidebar -->
 <div th:replace="~{admin/includes/sidebar.html}"></div>
 
-<section class="home_content">
-    <div class="heading-section">
-        User List
-        <div class="icons-section">
-            <span class="notification-icon">
-                <i class="bx bx-bell"></i>
-                <span class="notification-count">5</span>
-            </span>
-            <span class="profile-icon">
-                <i class="bx bx-user"></i>
-            </span>
-        </div>
-    </div>
+
     <div class="custom-table">
         <div class="custom-table-headings">
             <div class="custom-heading">USER ID</div>
@@ -23,7 +11,6 @@
             <div class="custom-heading">E-MAIL</div>
             <div class="custom-heading">ROLES</div>
             <div class="custom-heading">EDIT</div>
-
         </div>
         <div class="custom-row" th:each="user : ${users}">
             <div class="custom-cell" th:text="${user.id}"></div>
@@ -38,7 +25,7 @@
         </div>
     </div>
 
-</section>
+
 
 <!-- Include the footer -->
 <div th:replace="~{admin/includes/footer.html}"></div>

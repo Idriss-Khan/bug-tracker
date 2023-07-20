@@ -1,19 +1,6 @@
 <!-- Include the sidebar -->
 <div th:replace="~{admin/includes/sidebar.html}"></div>
 
-<section class="home_content">
-    <div class="heading-section">
-        View User Details
-        <div class="icons-section">
-            <span class="notification-icon">
-                <i class="bx bx-bell"></i>
-                <span class="notification-count">5</span>
-            </span>
-            <span class="profile-icon">
-                <i class="bx bx-user"></i>
-            </span>
-        </div>
-    </div>
     <form th:action="@{/admin/user/save}" th:object="${user}" method="post">
         <div class="profile-card">
             <div class="profile-photo">
@@ -61,10 +48,6 @@
 
         </div>
     </form>
-
-</section>
-
-
 
 <!-- Include the footer -->
 <div th:replace="~{admin/includes/footer.html}"></div>

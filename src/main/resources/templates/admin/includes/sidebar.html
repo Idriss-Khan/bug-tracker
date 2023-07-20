@@ -35,11 +35,11 @@
             <span class="tooltip">Reports</span>
         </li>
         <li>
-            <a href="#">
-                <i class='bx bx-message-rounded'></i>
-                <span class="links_name">Messages</span>
+            <a th:href="@{/admin/project}" href="#">
+                <i class='bx bx-folder'></i>
+                <span class="links_name">Projects</span>
             </a>
-            <span class="tooltip">Messages</span>
+            <span class="tooltip">Projects</span>
         </li>
         <li>
             <a th:href="@{/admin/user}" href="#">
@@ -61,3 +61,17 @@
     </div>
 </div>
 
+<!---Home Content-->
+<section class="home_content">
+    <div class="heading-section">
+        <span th:text="${pageTitle}"></span>
+        <div class="icons-section">
+            <span class="notification-icon">
+                <i class="bx bx-bell"></i>
+                <span class="notification-count">5</span>
+            </span>
+            <span class="profile-icon">
+                <i class="bx bx-user"></i>
+            </span>
+        </div>
+    </div>

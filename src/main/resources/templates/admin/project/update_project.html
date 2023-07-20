@@ -1,0 +1,61 @@
+<!-- Include the sidebar -->
+<div th:replace="~{admin/includes/sidebar.html}"></div>
+
+<div id="project-form">
+    <div class="form-section">
+        <form th:action="@{/admin/project/edit/{id}(id=${project.id})}" th:object="${project}" th:method="post">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" th:field="*{name}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" th:field="*{description}" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="start-date">Start Date:</label>
+                <input type="date" id="start-date" name="start-date" th:field="*{startDate}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="end-date">End Date:</label>
+                <input type="date" id="end-date" name="end-date" th:field="*{endDate}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="priority">Priority:</label>
+                <select id="priority" name="priority" th:field="*{priority}" required>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <select id="status" name="status" th:field="*{status}" required>
+                    <option value="in-progress">In Progress</option>
+                    <option value="completed">Completed</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="manager">Manager:</label>
+                <select id="manager" name="projectManager.id">
+                    <option th:each="manager : ${projectManagers}" th:value="${manager.id}" th:text="${manager.firstName} + ' ' + ${manager.lastName}"></option>
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <button type="submit">Update Project</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<!-- Include the footer -->
+<div th:replace="~{admin/includes/footer.html}"></div>

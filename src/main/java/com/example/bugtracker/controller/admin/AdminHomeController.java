@@ -20,6 +20,4 @@ public class AdminHomeController {
         modelAndView.addObject("pageTitle", "Dashboard");
         return modelAndView;
     }
-
-
 }

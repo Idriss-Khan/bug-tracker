@@ -66,6 +66,11 @@ public class UserService {
         Optional<User> userOptional = Optional.ofNullable(userRepo.findByEmail(email));
         return userOptional.isPresent();
     }
+
+    public List<User> getUsersByRole(String roleName) {
+        Role role = roleRepo.findByName(roleName);
+        return userRepo.findByRoles(role.getName());
+    }
 }
 
 

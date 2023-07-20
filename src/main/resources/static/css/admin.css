@@ -371,7 +371,6 @@ body {
     margin-top: 20px;
     margin-left: 20px;
     margin-right: 20px;
-    overflow-x: auto; /* Enable horizontal scrolling if needed */
 }
 
 .custom-table-headings {
@@ -408,7 +407,7 @@ body {
     text-overflow: ellipsis; /* Show ellipsis (...) for truncated text */
 }
 
-/* Profile Section Styles */
+/* PROFILE SECTION STYLES */
 .profile-card {
     width: 400px;
     background-color: #f9f9f9;
@@ -470,4 +469,80 @@ body {
 .save-button:hover {
     background-color: #19215d;
     transform: scale(1.05);
+}
+
+/* PROJECT SECTION STYLES */
+
+.button-section {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+.button-link {
+    display: inline-block;
+    background-color: #161427;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.button-link:hover {
+    background-color: #19215d;
+}
+
+/* FORM CSS */
+
+#project-form .form-section {
+    margin-top: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#project-form .form-group {
+    margin-bottom: 20px;
+}
+
+#project-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#project-form input[type="text"],
+#project-form textarea,
+#project-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+#project-form input[type="text"]:focus,
+#project-form textarea:focus,
+#project-form select:focus {
+    border-color: rgb(36, 100, 218);
+    outline: none;
+}
+
+#project-form button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #111738;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+}
+
+#project-form button[type="submit"]:hover {
+    background-color: #19215d;
 }
