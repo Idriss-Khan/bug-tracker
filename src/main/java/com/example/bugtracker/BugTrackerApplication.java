@@ -31,7 +31,7 @@ public class BugTrackerApplication {
 			List<Role> roles = Arrays.asList(
 					new Role(1, "ADMIN"), // Set the ID of the ADMIN role to 1
 					new Role("DEVELOPER"),
-					new Role("PROJECT Manager"),
+					new Role("PROJECT MANAGER"),
 					new Role("USER")
 			);
 

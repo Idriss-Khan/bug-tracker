@@ -1,0 +1,70 @@
+<!-- Include the sidebar -->
+<div th:replace="~{admin/includes/sidebar.html}"></div>
+
+<section class="home_content">
+    <div class="heading-section">
+        View User Details
+        <div class="icons-section">
+            <span class="notification-icon">
+                <i class="bx bx-bell"></i>
+                <span class="notification-count">5</span>
+            </span>
+            <span class="profile-icon">
+                <i class="bx bx-user"></i>
+            </span>
+        </div>
+    </div>
+    <form th:action="@{/admin/user/save}" th:object="${user}" method="post">
+        <div class="profile-card">
+            <div class="profile-photo">
+                <img th:src="@{/img/1516938018965.jpg}" alt="Profile Photo">
+            </div>
+
+            <div class="profile-details">
+                <div class="detail">
+                    <label for="user-id">User ID:</label>
+                    <input type="text" id="user-id" th:field="*{id}" readonly>
+                </div>
+
+                <div class="detail">
+                    <label for="first-name">First Name:</label>
+                    <input type="text" id="first-name" th:field="*{firstName}" required minlength="2" maxlength="20">
+                </div>
+
+                <div class="detail">
+                    <label for="last-name">Last Name:</label>
+                    <input type="text" id="last-name" th:field="*{lastName}" required minlength="2" maxlength="20">
+                </div>
+
+                <div class="detail">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" th:field="*{email}" required>
+                </div>
+
+                <div class="detail">
+                    <label for="phone">Phone Number:</label>
+                    <input type="text" id="phone" th:field="*{phoneNumber}">
+                </div>
+
+                <div class="detail">
+                    <span>Roles:</span>
+                    <div style="margin-left: 120px">
+                        <div th:each="role: ${listRoles}">
+                            <input type="checkbox" th:field="*{roles}" th:value="${role.id}">
+                            <span th:for="${role.id}" th:text="${role.name}"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="save-button">Update</button>
+            </div>
+
+        </div>
+    </form>
+
+</section>
+
+
+
+<!-- Include the footer -->
+<div th:replace="~{admin/includes/footer.html}"></div>

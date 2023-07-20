@@ -48,9 +48,17 @@ public class UserService {
     }
 
     public void save(User user) {
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        String encodedPassword = encoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
+        User existingUser = userRepo.findById(user.getId()).orElse(null);
+        if (existingUser != null) {
+            // Preserve existing password if not modified
+            if (user.getPassword() == null || user.getPassword().isEmpty()) {
+                user.setPassword(existingUser.getPassword());
+            } else {
+                BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+                String encodedPassword = encoder.encode(user.getPassword());
+                user.setPassword(encodedPassword);
+            }
+        }
         userRepo.save(user);
     }
 

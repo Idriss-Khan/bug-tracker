@@ -1,0 +1,44 @@
+<!-- Include the sidebar -->
+<div th:replace="~{admin/includes/sidebar.html}"></div>
+
+<section class="home_content">
+    <div class="heading-section">
+        User List
+        <div class="icons-section">
+            <span class="notification-icon">
+                <i class="bx bx-bell"></i>
+                <span class="notification-count">5</span>
+            </span>
+            <span class="profile-icon">
+                <i class="bx bx-user"></i>
+            </span>
+        </div>
+    </div>
+    <div class="custom-table">
+        <div class="custom-table-headings">
+            <div class="custom-heading">USER ID</div>
+            <div class="custom-heading">FIRST NAME</div>
+            <div class="custom-heading">LAST NAME</div>
+            <div class="custom-heading">PICTURE</div>
+            <div class="custom-heading">E-MAIL</div>
+            <div class="custom-heading">ROLES</div>
+            <div class="custom-heading">EDIT</div>
+
+        </div>
+        <div class="custom-row" th:each="user : ${users}">
+            <div class="custom-cell" th:text="${user.id}"></div>
+            <div class="custom-cell" th:text="${user.firstName}"></div>
+            <div class="custom-cell" th:text="${user.lastName}"></div>
+            <div class="custom-cell" th:text="${user.profilePicture}"></div>
+            <div class="custom-cell" th:text="${user.email}"></div>
+            <div class="custom-cell" th:text="${user.roles}"></div>
+            <div class="custom-cell">
+                <a class="btn btn-info" th:href="@{/admin/user/edit/{id}(id=${user.id})}">Edit</a>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<!-- Include the footer -->
+<div th:replace="~{admin/includes/footer.html}"></div>
