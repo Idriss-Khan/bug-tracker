@@ -1,0 +1,16 @@
+/* ---- CSS for Home Page ---- */
+
+/* CSS for home navbar and logout button */
+
+.custom-form {
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+}
+.custom-form input {
+    border: none;
+    background-color: transparent;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+}

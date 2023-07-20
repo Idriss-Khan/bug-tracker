@@ -1,0 +1,72 @@
+<!-- Include the header -->
+<div th:insert="~{includes/header.html}" th:with="pageTitle='Sign Up'"></div>
+
+<!-- Main content of the page -->
+<div class="container mt-4">
+    <h2>Register</h2>
+    <form th:action="@{/process_register}" th:object="${user}" method="post" onsubmit="return validateForm()">
+        <!---Error Message---->
+        <p class="error" id="error-message" th:if="${errorMessage}"  th:text="${errorMessage}"></p>
+
+        <!---First Name---->
+        <div class="form-group" data-validate="Name is required">
+            <label for="firstName">First Name</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" th:field="*{firstName}" placeholder="First Name" required>
+        </div>
+
+        <!---Last Name---->
+        <div class="form-group" data-validate="Name is required">
+            <label for="lastName">Last Name</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" th:field="*{lastName}" placeholder="Last Name" required>
+        </div>
+
+        <!---Email---->
+        <div class="form-group" data-validate="Valid email is required: ex@abc.xyz">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" th:field="*{email}" placeholder="sample@example.com" required>
+        </div>
+
+        <!---Password---->
+        <div class="form-group" data-validate="Valid password is required">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" th:field="*{password}" placeholder="Password" required>
+        </div>
+
+        <!---Password Confirmation---->
+        <div class="form-group" data-validate="Valid password is required">
+            <label>Confirm Password</label>
+            <input type="password" class="form-control" id="confirm-password" name="confirmPassword" placeholder="Confirm your password" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+    <br>
+    <p>Already have an account? <a th:href="@{/login}">Login here.</a></p>
+</div>
+
+<!-- Include the footer -->
+<div th:insert="~{includes/footer.html}"></div>
+
+<!--- ValidateForm method to ensure passwords match ---->
+<script>
+    function validateForm() {
+        const password = document.getElementById("password").value;
+        const confirmPassword = document.getElementById("confirm-password").value;
+        const errorMessage = document.getElementById("error-message");
+
+        if (password !== confirmPassword) {
+            errorMessage.innerHTML = "Passwords do not match!";
+            return false;
+        } else {
+            errorMessage.innerHTML = "";
+            return true;
+        }
+    }
+</script>
+
+
+</body>
+</html>
+
+
+

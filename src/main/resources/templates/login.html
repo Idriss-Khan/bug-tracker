@@ -1,0 +1,30 @@
+<!-- Include the header -->
+<div th:insert="~{includes/header.html}" th:with="pageTitle='Login'"></div>
+
+<!-- Main content of the page -->
+<div class="container mt-4">
+    <h2>Login</h2>
+    <form th:action="@{/login}" method="post">
+        <!-- Error Message -->
+        <p th:if="${param.error}" class="error">Invalid username or password.</p>
+
+        <!-- Email -->
+        <div class="form-group" data-validate="Valid email is required: ex@abc.xyz">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Please enter your email" required>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group" data-validate="Valid password is required">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Please enter your password" required>
+        </div>
+
+        <button type="submit" value="Login" class="btn btn-primary">Login</button>
+    </form>
+    <br>
+    <p>Don't have an account? <a th:href="@{/register}">Sign up here.</a></p>
+</div>
+
+<!-- Include the footer -->
+<div th:insert="~{includes/footer.html}"></div>
