@@ -1,0 +1,75 @@
+<!-- Include the sidebar -->
+<div th:replace="~{admin/includes/sidebar.html}"></div>
+
+
+<section class="home_content">
+    <div class="heading-section">
+        Bug Tracker Admin Dashboard
+        <div class="icons-section">
+            <span class="notification-icon">
+                <i class="bx bx-bell"></i>
+                <span class="notification-count">5</span>
+            </span>
+            <span class="profile-icon">
+                <i class="bx bx-user"></i>
+            </span>
+        </div>
+    </div>
+
+    <div class="cards-section">
+        <div class="card">
+            <div class="number">50</div>
+            <div class="title">Total Bugs</div>
+        </div>
+        <div class="card">
+            <div class="number">20</div>
+            <div class="title">Open Bugs</div>
+        </div>
+        <div class="card">
+            <div class="number">30</div>
+            <div class="title">Closed Bugs</div>
+        </div>
+        <div class="card">
+            <div class="number">15</div>
+            <div class="title">Due Today</div>
+        </div>
+        <div class="card">
+            <div class="number">12</div>
+            <div class="title">Due in 7 Days</div>
+        </div>
+    </div>
+    <div class="section-line"></div>
+    <div class="bug-table">
+        <div class="bug-table-headings">
+            <div class="bug-heading">BUG</div>
+            <div class="bug-heading">STATUS</div>
+            <div class="bug-heading">CREATED</div>
+            <div class="bug-heading">DUE</div>
+            <div class="bug-heading">REPORTER</div>
+        </div>
+        <div class="project-row" onclick="toggleTable(this)">
+            <div class="project-title"><i class='bx bxs-plus-square bx-flip-horizontal' style='color:#353333' ></i>
+                Project Title
+            </div>
+        </div>
+        <div class="bug-table-content">
+            <div class="bug-row">
+                <div class="bug-cell">Bug 1</div>
+                <div class="bug-cell">Open</div>
+                <div class="bug-cell">2023-07-10</div>
+                <div class="bug-cell">2023-07-20</div>
+                <div class="bug-cell">John Doe</div>
+            </div>
+            <div class="bug-row">
+                <div class="bug-cell">Bug 2</div>
+                <div class="bug-cell">Closed</div>
+                <div class="bug-cell">2023-07-11</div>
+                <div class="bug-cell">2023-07-15</div>
+                <div class="bug-cell">Jane Smith</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Include the footer -->
+<div th:insert="~{admin/includes/footer.html}"></div>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle}"></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+
+<!---Sidebar-->
+<div class="sidebar">
+    <div class="logo_content">
+        <div class="logo">
+            <i class="bx bx-bug-alt"></i>
+            <div class="logo_name">Bug Tracker</div>
+        </div>
+    </div>
+    <ul class="nav_list">
+        <li>
+            <a href="#">
+                <i class='bx bx-grid-alt'></i>
+                <span class="links_name">Dashboard</span>
+            </a>
+            <span class="tooltip">Dashboard</span>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bx-bar-chart-alt'></i>
+                <span class="links_name">Reports</span>
+            </a>
+            <span class="tooltip">Reports</span>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bx-message-rounded'></i>
+                <span class="links_name">Messages</span>
+            </a>
+            <span class="tooltip">Messages</span>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bx-user'></i>
+                <span class="links_name">Users</span>
+            </a>
+            <span class="tooltip">Users</span>
+        </li>
+        <li>
+            <a href="#">
+                <i class='bx bx-cog'></i>
+                <span class="links_name">Settings</span>
+            </a>
+            <span class="tooltip">Settings</span>
+        </li>
+    </ul>
+    <div class="sidebar_btn">
+        <i class="bx bx-chevron-left" id="btn"></i>
+    </div>
+</div>
+

@@ -10,14 +10,14 @@
         <p th:if="${param.error}" class="error">Invalid username or password.</p>
 
         <!-- Email -->
-        <div class="form-group" data-validate="Valid email is required: ex@abc.xyz">
-            <label for="email">Email</label>
+        <div class="mb-3" data-validate="Valid email is required: ex@abc.xyz">
+            <label for="email" class="form-label">Email</label>
             <input type="email" class="form-control" id="email" name="email" placeholder="Please enter your email" required>
         </div>
 
         <!-- Password -->
-        <div class="form-group" data-validate="Valid password is required">
-            <label for="password">Password</label>
+        <div class="mb-3" data-validate="Valid password is required">
+            <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" id="password" name="password" placeholder="Please enter your password" required>
         </div>
 
