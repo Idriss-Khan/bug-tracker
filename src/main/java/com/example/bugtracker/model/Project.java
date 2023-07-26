@@ -1,10 +1,13 @@
 package com.example.bugtracker.model;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The Entity class represents a Project.
@@ -21,8 +24,10 @@ public class Project {
 
     private String description;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate startDate;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
 
     private String status;
@@ -39,14 +44,14 @@ public class Project {
             joinColumns = @JoinColumn(name = "project_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private List<User> associatedUsers;
+    private Set<User> associatedUsers;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<Bug> bugs;
 
     public void addAssociatedUser(User user) {
         if (associatedUsers == null) {
-            associatedUsers = new ArrayList<>();
+            associatedUsers = new HashSet<>();
         }
         associatedUsers.add(user);
     }
@@ -121,11 +126,11 @@ public class Project {
         this.projectManager = projectManager;
     }
 
-    public List<User> getAssociatedUsers() {
+    public Set<User> getAssociatedUsers() {
         return associatedUsers;
     }
 
-    public void setAssociatedUsers(List<User> associatedUsers) {
+    public void setAssociatedUsers(Set<User> associatedUsers) {
         this.associatedUsers = associatedUsers;
     }
 

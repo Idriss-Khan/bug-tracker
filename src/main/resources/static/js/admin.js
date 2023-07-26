@@ -7,8 +7,10 @@ $(document).ready(function () {
     });
 });
 
+
 // Expand and collapsing table row
 function toggleTable(row) {
     const content = row.nextElementSibling;
     content.style.display = content.style.display === "none" ? "block" : "none";
 }
+

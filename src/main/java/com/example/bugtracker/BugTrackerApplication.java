@@ -39,7 +39,7 @@ public class BugTrackerApplication {
 			Role adminRole = roleRepository.findById(1).orElse(null); // Retrieve the ADMIN role by ID
 
 			// Create admin user with role of ADMIN
-			User admin = new User(1, "admin", passwordEncoder.encode("password"), "admin", "admin", Set.of(adminRole));
+			User admin = new User(1, "admin@admin.com", passwordEncoder.encode("password"), "admin", "admin", Set.of(adminRole));
 
 			userRepository.save(admin);
 		};

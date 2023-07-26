@@ -70,11 +70,17 @@ public class AdminProjectController {
 
         Project project = projectService.getProjectById(id);
         mav.addObject("project", project);
+
         List<User> projectManagers = userService.getUsersByRole("PROJECT MANAGER");
         mav.addObject("projectManagers", projectManagers);
+
+        List<User> developers = userService.getUsersByRole("DEVELOPER");
+        mav.addObject("developers", developers);
+
         mav.addObject("pageTitle", "Update Project Details");
         return mav;
     }
+
 
     @PostMapping("/edit/{id}")
     public RedirectView updateCategory(@PathVariable("id") Integer id, @ModelAttribute("project") Project project) {
@@ -82,8 +88,30 @@ public class AdminProjectController {
         return new RedirectView("/admin/project");
     }
 
+    /**
+     * Returns to project details page
+     */
+    @GetMapping("/view/{id}")
+    public ModelAndView getProjectDetailPage(@PathVariable("id") Integer id) {
+        ModelAndView mav = new ModelAndView("admin/project/project_detail");
 
+        // Fetch the project details from the service/repository based on the given id
+        Project project = projectService.getProjectById(id);
 
+        mav.addObject("pageTitle", "Project Details");
+        mav.addObject("project", project);
+
+        return mav;
+    }
+
+    /**
+     * Deletes a category with the specified ID.
+     */
+    @DeleteMapping("/{id}")
+    public RedirectView deleteProject(@PathVariable("id") Integer id) {
+        projectService.deleteProjectById(id);
+        return new RedirectView("/admin/project");
+    }
 
 
 }

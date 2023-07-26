@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html class="disable-transitions" lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -66,12 +66,15 @@
     <div class="heading-section">
         <span th:text="${pageTitle}"></span>
         <div class="icons-section">
+            <a href="#" class="submit-bug-button">
+                Submit Bug
+            </a>
             <span class="notification-icon">
-                <i class="bx bx-bell"></i>
-                <span class="notification-count">5</span>
-            </span>
+            <i class="bx bx-bell"></i>
+            <span class="notification-count">5</span>
+        </span>
             <span class="profile-icon">
-                <i class="bx bx-user"></i>
-            </span>
+            <i class="bx bx-user"></i>
+        </span>
         </div>
     </div>
