@@ -1,0 +1,61 @@
+<!-- Include the sidebar -->
+<div th:replace="~{admin/includes/sidebar.html}"></div>
+
+<!-- Project Details Card -->
+<div class="card project-detail-card">
+    <!-- Add project details here -->
+    <div class="title">
+        <i class="bx bx-folder"></i>
+        <span th:text="${pageTitle}"></span>
+    </div>
+    <div class="project-description" th:text="${project.description}"></div>
+    <div class="project-dates">
+        <div th:text="'Start Date: ' + ${project.startDate}"></div>
+        <div th:text="'End Date: ' + ${project.endDate}"></div>
+    </div>
+    <div class="project-status" th:text="'Status: ' + ${project.status}"></div>
+</div>
+
+<!-- Project Manager and Associated Developers Card -->
+<div class="card associated-developers-card">
+    <!-- Add project manager and associated developers here -->
+    <div class="title">
+        <i class="bx bx-user"></i>
+        Project Manager
+    </div>
+    <div class="manager-name" th:text="${project.projectManager.toString()}"></div>
+    <div class="title">
+        <i class="bx bx-group"></i>
+        Associated Developers
+    </div>
+    <ul class="developer-list">
+        <li th:each="developer : ${project.getAssociatedUsers()}" th:text="${developer.toString()}"></li>
+    </ul>
+</div>
+
+<!-- Bugs Table Card -->
+<div class="card bugs-table-card">
+    <div class="title">
+        <i class="bx bx-bug"></i>
+        Bugs
+    </div>
+    <!-- bug table -->
+    <div class="bug-table">
+        <div class="bug-table-headings">
+            <div class="bug-heading">BUG</div>
+            <div class="bug-heading">STATUS</div>
+            <div class="bug-heading">PRIORITY</div>
+            <div class="bug-heading">REPORTER</div>
+        </div>
+        <div class="bug-row" th:each="bug : ${project.bugs}">
+            <div class="bug-cell" th:text="${bug.title}"></div>
+            <div class="bug-cell" th:text="${bug.status}"></div>
+            <div class="bug-cell" th:text="${bug.priority}"></div>
+            <div class="bug-cell" th:text="${bug.postedBy}"></div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Include the footer -->
+<div th:replace="~{admin/includes/footer.html}"></div>
