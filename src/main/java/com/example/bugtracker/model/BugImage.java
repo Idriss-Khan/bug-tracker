@@ -10,10 +10,31 @@ public class BugImage {
 
     private String imageName;
 
-    @Lob
-    private byte[] imageData;
-
     @ManyToOne
     @JoinColumn(name = "bug_id")
     private Bug bug;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getImageName() {
+        return imageName;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    public Bug getBug() {
+        return bug;
+    }
+
+    public void setBug(Bug bug) {
+        this.bug = bug;
+    }
 }

@@ -1,7 +1,9 @@
 package com.example.bugtracker.model;
 
 import jakarta.persistence.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,14 +26,19 @@ public class Bug {
 
     private String priority;
 
-    private String postedBy;
+    @ManyToOne
+    @JoinColumn(name = "posted_by")
+    private User postedBy;
 
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
 
+    @Transient
+    private List<MultipartFile> bugImages;
+
     @OneToMany(mappedBy = "bug", cascade = CascadeType.ALL)
-    private List<BugImage> bugImages;
+    private List<BugImage> bugImageEntities;
 
     public Integer getId() {
         return id;
@@ -81,11 +88,11 @@ public class Bug {
         this.priority = priority;
     }
 
-    public String getPostedBy() {
+    public User getPostedBy() {
         return postedBy;
     }
 
-    public void setPostedBy(String postedBy) {
+    public void setPostedBy(User postedBy) {
         this.postedBy = postedBy;
     }
 
@@ -97,11 +104,22 @@ public class Bug {
         this.project = project;
     }
 
-    public List<BugImage> getBugImages() {
+    public List<MultipartFile> getBugImages() {
         return bugImages;
     }
 
-    public void setBugImages(List<BugImage> bugImages) {
+    public void setBugImages(List<MultipartFile> bugImages) {
         this.bugImages = bugImages;
+    }
+
+    public void addBugImageEntity(BugImage bugImage) {
+        if (this.bugImageEntities == null) {
+            this.bugImageEntities = new ArrayList<>();
+        }
+        this.bugImageEntities.add(bugImage);
+        bugImage.setBug(this);
+    }
+
+    public void setBugImageEntities(List<BugImage> bugImageEntities) {
     }
 }

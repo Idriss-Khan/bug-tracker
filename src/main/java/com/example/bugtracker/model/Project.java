@@ -47,7 +47,7 @@ public class Project {
     private Set<User> associatedUsers;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
-    private List<Bug> bugs;
+    private Set<Bug> bugs;
 
     public void addAssociatedUser(User user) {
         if (associatedUsers == null) {
@@ -134,11 +134,11 @@ public class Project {
         this.associatedUsers = associatedUsers;
     }
 
-    public List<Bug> getBugs() {
+    public Set<Bug> getBugs() {
         return bugs;
     }
 
-    public void setBugs(List<Bug> bugs) {
+    public void setBugs(Set<Bug> bugs) {
         this.bugs = bugs;
     }
 

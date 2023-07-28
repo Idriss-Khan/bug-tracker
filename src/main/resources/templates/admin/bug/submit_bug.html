@@ -1,0 +1,69 @@
+<div th:replace="~{admin/includes/sidebar.html}"></div>
+
+<div id="project-form">
+    <div class="form-section">
+        <form th:action="@{/admin/bug/submit}" th:object="${bug}" method="post" enctype="multipart/form-data">
+
+            <div class="form-group">
+                <label for="project">Project:</label>
+                <select id="project" name="project.id" required>
+                    <!-- Use th:inline="text" to treat the text as plain text -->
+                    <option value="" th:inline="text">-- Select Project --</option>
+                    <option th:each="project : ${projects}" th:value="${project.id}" th:text="${project.name}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" th:field="*{title}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" th:field="*{description}" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="steps-to-reproduce">Steps to Reproduce:</label>
+                <textarea id="steps-to-reproduce" name="stepsToReproduce" th:field="*{stepsToReproduce}" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="bugImages">Screenshots:</label>
+                <input type="file" id="bugImages" name="bugImages" multiple>
+            </div>
+
+            <div class="form-group">
+                <label for="priority">Priority:</label>
+                <select id="priority" name="priority" th:field="*{priority}" required>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="status">Status:</label>
+                <select id="status" name="status" th:field="*{status}" required>
+                    <option value="new">New</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="resolved">Resolved</option>
+                    <option value="closed">Closed</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="posted-by">Posted By:</label>
+                <input type="text" id="posted-by" name="postedByName" th:value="${user}" readonly>
+                <input type="hidden" name="postedBy" th:value="${user.getId()}">
+            </div>
+
+            <div class="form-group">
+                <button type="submit">Submit Bug</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div th:replace="~{admin/includes/footer.html}"></div>
