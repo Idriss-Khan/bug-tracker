@@ -3,6 +3,7 @@ package com.example.bugtracker.model;
 import jakarta.persistence.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,10 @@ public class Bug {
 
     private String priority;
 
+    private LocalDate created;
+
+    private LocalDate due;
+
     @ManyToOne
     @JoinColumn(name = "posted_by")
     private User postedBy;
@@ -39,6 +44,10 @@ public class Bug {
 
     @OneToMany(mappedBy = "bug", cascade = CascadeType.ALL)
     private List<BugImage> bugImageEntities;
+
+    public Bug() {
+        this.created = LocalDate.now();
+    }
 
     public Integer getId() {
         return id;
@@ -121,5 +130,25 @@ public class Bug {
     }
 
     public void setBugImageEntities(List<BugImage> bugImageEntities) {
+    }
+
+    public LocalDate getCreated() {
+        return created;
+    }
+
+    public void setCreated(LocalDate created) {
+        this.created = created;
+    }
+
+    public LocalDate getDue() {
+        return due;
+    }
+
+    public void setDue(LocalDate due) {
+        this.due = due;
+    }
+
+    public List<BugImage> getBugImageEntities() {
+        return bugImageEntities;
     }
 }
