@@ -45,12 +45,16 @@
             <div class="bug-heading">BUG</div>
             <div class="bug-heading">STATUS</div>
             <div class="bug-heading">PRIORITY</div>
+            <div class="bug-heading">CREATED</div>
+            <div class="bug-heading">DUE</div>
             <div class="bug-heading">REPORTER</div>
         </div>
         <div class="bug-row" th:each="bug : ${project.bugs}">
             <div class="bug-cell" th:text="${bug.title}"></div>
             <div class="bug-cell" th:text="${bug.status}"></div>
             <div class="bug-cell" th:text="${bug.priority}"></div>
+            <div class="bug-cell" th:text="${bug.created}"></div>
+            <div class="bug-cell" th:text="${bug.due}"></div>
             <div class="bug-cell" th:text="${bug.postedBy}"></div>
         </div>
     </div>
