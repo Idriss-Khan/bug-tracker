@@ -1,0 +1,70 @@
+<!-- Include the sidebar -->
+<div th:replace="~{admin/includes/sidebar.html}"></div>
+
+<div class="card project-detail-card">
+    <div class="title">
+        <i class="bx bx-folder"></i>
+        <span th:text="${pageTitle}"></span>
+    </div>
+    <div class="project-status" th:text="'Status: ' + ${bug.status}"></div>
+    <div class="project-status" th:text="'Priority: ' + ${bug.priority}"></div>
+    <div class="project-description" th:text="'Project: ' + ${bug.project.name}"></div>
+    <div class="project-dates">
+        <div th:text="'Created: ' + ${bug.created}"></div>
+        <div th:text="'Due: ' + ${bug.due}"></div>
+    </div>
+    <div class="project-description" th:text="'Posted by: ' + ${bug.postedBy}"></div>
+</div>
+
+<!-- Project Manager and Associated Developers Card -->
+<div class="card associated-developers-card">
+    <!-- Add project manager and associated developers here -->
+    <div class="title">
+        <i class="bx bx-user"></i>
+        Project Manager
+    </div>
+    <div class="manager-name" th:text="${bug.project.projectManager.toString()}"></div>
+    <div class="title">
+        <i class="bx bx-group"></i>
+        Associated Developers
+    </div>
+    <ul class="developer-list">
+        <li >
+            test
+        </li>
+    </ul>
+</div>
+
+
+<div class="card">
+    <div class="title">
+        <i class="bx bx-detail"></i>
+        Description
+    </div>
+    <div th:text="${bug.description}"></div>
+</div>
+
+<div class="card">
+    <div class="title">
+        <i class="bx bx-list-ol"></i>
+        Steps To Reproduce
+    </div>
+    <div th:text="${bug.stepsToReproduce}"></div>
+</div>
+
+<div class="card">
+    <div class="title">
+        <i class="bx bx-screenshot"></i>
+        Screenshots
+    </div>
+    <div class="screenshots-container">
+        <th:block th:each="bugImage : ${bug.bugImageEntities}">
+            <img th:src="@{|${bugImage.imageName}|}" th:alt="${'Screenshot ' + bugImage.id}">
+        </th:block>
+    </div>
+
+</div>
+
+
+<!-- Include the footer -->
+<div th:replace="~{admin/includes/footer.html}"></div>

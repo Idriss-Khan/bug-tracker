@@ -599,6 +599,17 @@ body {
     padding-left: 20px;
 }
 
+/* Bug screenshots */
+.screenshots-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.screenshots-container img {
+    max-width: 230px;
+    margin-right: 10px;
+    object-fit: contain;
+}
 
 
 

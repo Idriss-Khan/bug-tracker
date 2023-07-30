@@ -19,8 +19,10 @@ public class Bug {
 
     private String title;
 
+    @Column(length = 1000)
     private String description;
 
+    @Column(length = 1000)
     private String stepsToReproduce;
 
     private String status;

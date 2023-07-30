@@ -1,8 +1,8 @@
 package com.example.bugtracker.controller.admin;
 
 import com.example.bugtracker.model.Bug;
+import com.example.bugtracker.model.Project;
 import com.example.bugtracker.model.User;
-import com.example.bugtracker.repository.BugImageRepository;
 import com.example.bugtracker.service.BugService;
 import com.example.bugtracker.service.ProjectService;
 import com.example.bugtracker.service.UserService;
@@ -54,6 +54,20 @@ public class AdminBugController {
     public RedirectView submitBug(@ModelAttribute("bug") Bug bug, @RequestParam("bugImages") List<MultipartFile> bugImages) {
         bugService.createBug(bug, bugImages);
         return new RedirectView("/admin/project");
+    }
+
+    /**
+     * Returns to bug details page
+     */
+    @GetMapping("/view/{id}")
+    public ModelAndView getBugDetailPage(@PathVariable("id") Integer id) {
+        ModelAndView mav = new ModelAndView("admin/bug/bug_detail");
+        Bug bug = bugService.getBugById(id);
+
+        mav.addObject("pageTitle", "Bug Details");
+        mav.addObject("bug", bug);
+
+        return mav;
     }
 
 }
