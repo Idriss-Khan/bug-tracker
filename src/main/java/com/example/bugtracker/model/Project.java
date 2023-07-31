@@ -47,6 +47,7 @@ public class Project {
     private Set<User> associatedUsers;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    @OrderBy("id ASC")
     private Set<Bug> bugs;
 
     public void addAssociatedUser(User user) {
