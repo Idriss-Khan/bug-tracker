@@ -26,11 +26,8 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Projects</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Issues</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Reports</a>
+        <li class="nav-item" sec:authorize="isAuthenticated()">
+          <a class="nav-link" th:href="@{/ticket/submit}">Submit Ticket</a>
         </li>
         <li class="nav-item" sec:authorize="isAuthenticated()">
           <a class="nav-link" th:href="@{/profile}">User Profile</a>

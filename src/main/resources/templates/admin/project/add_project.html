@@ -26,17 +26,17 @@
             <div class="form-group">
                 <label for="priority">Priority:</label>
                 <select id="priority" name="priority" th:field="*{priority}" required>
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
+                    <option value="Low">Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value="High">High</option>
                 </select>
             </div>
 
             <div class="form-group">
                 <label for="status">Status:</label>
                 <select id="status" name="status" th:field="*{status}" required>
-                    <option value="in-progress">In Progress</option>
-                    <option value="completed">Completed</option>
+                    <option value="In-progress">In Progress</option>
+                    <option value="Completed">Completed</option>
                 </select>
             </div>
 
@@ -46,7 +46,6 @@
                     <option th:each="manager : ${projectManagers}" th:value="${manager.id}" th:text="${manager.firstName} + ' ' + ${manager.lastName}"></option>
                 </select>
             </div>
-
 
             <div class="form-group">
                 <button type="submit">Add Project</button>

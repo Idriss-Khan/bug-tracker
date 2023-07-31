@@ -1,0 +1,51 @@
+<!-- Include the header -->
+<div th:insert="~{includes/header.html}" th:with="pageTitle='Submit Ticket'"></div>
+
+<div class="container mt-5">
+    <h2 class="mb-4">Submit Bug Report</h2>
+    <form th:action="@{/ticket/submit}" th:object="${bug}" method="post" enctype="multipart/form-data">
+
+        <div class="mb-3">
+            <label for="title" class="form-label">Project:</label>
+            <select class="form-select" id="project" name="project.id" required>
+                <option value="" th:inline="text">-- Select Project --</option>
+                <option th:each="project : ${projects}" th:value="${project.id}" th:text="${project.name}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="title" class="form-label">Title:</label>
+            <input type="text" class="form-control" id="title" name="title" th:field="*{title}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description:</label>
+            <textarea class="form-control" id="description" name="description" rows="4" th:field="*{description}" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="steps" class="form-label">Steps to Reproduce:</label>
+            <textarea class="form-control" id="steps" name="steps" rows="4" th:field="*{stepsToReproduce}" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="bugImages" class="form-label">Upload Screenshots:</label>
+            <input type="file" class="form-control" id="bugImages" name="bugImages" multiple>
+            <div id="imagePreview"></div>
+        </div>
+
+        <input type="hidden" name="priority" id="priority" value="Low">
+        <input type="hidden" name="status" id="status" value="New">
+
+        <div class="mb-3">
+            <label for="posted-by" class="form-label">Posted by:</label>
+            <input type="text" class="form-control" id="posted-by" name="postedByName" th:value="${user}" readonly>
+            <input type="hidden" class="form-control" name="postedBy" th:value="${user.getId()}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<!-- Include the footer -->
+<div th:insert="~{includes/footer.html}"></div>

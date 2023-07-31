@@ -1,0 +1,15 @@
+<!-- Include the header -->
+<div th:insert="~{includes/header.html}" th:with="pageTitle='Success | Bug Tracker'"></div>
+
+<div class="container mt-5">
+  <div class="alert alert-success" role="alert">
+    <h4 class="alert-heading">Ticket Submitted Successfully!</h4>
+    <p>Your bug report ticket has been submitted successfully. Thank you for reporting the issue. We will review it shortly.</p>
+    <hr>
+    <a th:href="@{/}" class="btn btn-primary mt-3">Go Back to Home</a>
+  </div>
+</div>
+
+
+<!-- Include the footer -->
+<div th:insert="~{includes/footer.html}"></div>
