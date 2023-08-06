@@ -27,8 +27,9 @@ public class UserController {
         mav.addObject("user", currentUser);
         return mav;
     }
+
     /**
-     * Handles POST requests for editing the user's profile.
+     * Handles POST requests for editing the user's profile image.
      */
     @PostMapping("/edit-profile-image")
     public RedirectView saveCurrentUser(@ModelAttribute("user") User user, Principal principal, MultipartFile profilePicFile) {
@@ -38,15 +39,20 @@ public class UserController {
         return new RedirectView("/profile");
     }
 
+    /**
+     * Handles POST requests for editing the user's profile.
+     */
     @PostMapping("/edit-profile")
-    public ModelAndView saveCurrentUser(@ModelAttribute("user") User user, Principal principal) {
-        ModelAndView mav = new ModelAndView("user/profile_page");
+    public RedirectView saveCurrentUser(@ModelAttribute("user") User updatedUser, Principal principal) {
         String email = principal.getName();
         User currentUser = userService.getUserByEmail(email);
-        currentUser.setEmail(user.getEmail());
-        currentUser.setPassword(user.getPassword());
+
+        currentUser.setFirstName(updatedUser.getFirstName());
+        currentUser.setLastName(updatedUser.getLastName());
+        currentUser.setPassword(updatedUser.getPassword());
+
         userService.save(currentUser);
-        return mav;
+        return new RedirectView("/profile");
     }
 
 
