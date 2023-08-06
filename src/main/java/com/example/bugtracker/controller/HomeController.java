@@ -77,7 +77,6 @@ public class HomeController {
 
     /**
      * Returns login page.
-     *
      * @return ModelAndView representing the login page
      */
     @GetMapping("/login")

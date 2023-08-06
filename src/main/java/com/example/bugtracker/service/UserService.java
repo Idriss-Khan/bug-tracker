@@ -7,7 +7,15 @@ import com.example.bugtracker.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -63,7 +71,33 @@ public class UserService {
                 user.setPassword(encodedPassword);
             }
         }
+
         userRepo.save(user);
+    }
+
+    public void updateProfileImage(User user, MultipartFile profilePicFile) {
+        User currentUser = userRepo.findByEmail(user.getEmail());
+        // Update profile image
+        if (profilePicFile != null && !profilePicFile.isEmpty()) {
+
+            String fileName = StringUtils.cleanPath(profilePicFile.getOriginalFilename());
+            String uploadDir = "src/main/resources/static/profileimg";
+            Path uploadPath = Paths.get(uploadDir);
+
+            try {
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+                try (InputStream inputStream = profilePicFile.getInputStream()) {
+                    Path filePath = uploadPath.resolve(fileName);
+                    Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException("Could not store profile picture: " + fileName, e);
+            }
+            currentUser.setProfilePicture("/profileimg/" + fileName);
+        }
+        userRepo.save(currentUser);
     }
 
     public boolean emailExists(String email) {
@@ -76,5 +110,6 @@ public class UserService {
         return userRepo.findByRoles(role.getName());
     }
 }
+
 
 
