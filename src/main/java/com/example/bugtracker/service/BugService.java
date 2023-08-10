@@ -2,6 +2,7 @@ package com.example.bugtracker.service;
 
 import com.example.bugtracker.model.Bug;
 import com.example.bugtracker.model.BugImage;
+import com.example.bugtracker.model.User;
 import com.example.bugtracker.repository.BugImageRepository;
 import com.example.bugtracker.repository.BugRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,5 +83,10 @@ public class BugService {
         return bugRepository.findById(bugId)
                 .orElseThrow(() -> new NoSuchElementException("Bug not found"));
     }
+
+    public List<Bug> getBugsByUser(User user) {
+        return bugRepository.findByPostedBy(user);
+    }
+
 
 }

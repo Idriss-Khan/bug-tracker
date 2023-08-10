@@ -1,3 +1,4 @@
+// Bug image upload function - displays selected screenshots
 document.addEventListener("DOMContentLoaded", function () {
     const imagePreview = document.getElementById("imagePreview");
     const imagesInput = document.getElementById("bugImages");
@@ -22,4 +23,53 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// Changes status colours for list of bugs
+document.addEventListener("DOMContentLoaded", function() {
+    var badgeElements = document.querySelectorAll(".badge.bug-status");
 
+    badgeElements.forEach(function(badge) {
+        var status = badge.textContent.trim();
+        switch (status) {
+            case "New":
+                badge.classList.add("bg-primary");
+                break;
+            case "In-Progress":
+                badge.classList.add("bg-warning");
+                break;
+            case "Resolved":
+                badge.classList.add("bg-success");
+                break;
+            case "Closed":
+                badge.classList.add("bg-secondary");
+                break;
+            default:
+                badge.classList.add("bg-light");
+                break;
+        }
+    });
+});
+
+// User profile page - changes user profile image
+function previewProfileImage(event) {
+    const input = event.target;
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const profileImage = document.querySelector('.profile-image');
+            profileImage.src = e.target.result;
+            showActionIcons(); // Show action-icons when profile image is uploaded
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+function showActionIcons() {
+    const actionIcons = document.querySelector('.action-icons');
+    actionIcons.style.display = 'block'; // Display the action-icons
+}
+
+// Initially hides the action-icons
+document.addEventListener('DOMContentLoaded', function () {
+    const actionIcons = document.querySelector('.action-icons');
+    actionIcons.style.display = 'none';
+});

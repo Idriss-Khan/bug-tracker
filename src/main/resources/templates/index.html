@@ -1,5 +1,61 @@
 <!-- Include the header -->
 <div th:insert="~{includes/header.html}" th:with="pageTitle='Bug Tracker'"></div>
 
+<!-- Content -->
+<div class="container mt-4">
+    <div class="row mb-3">
+        <div th:if="${userBugs != null}" class="col-md-3">
+            <a class="btn btn-primary" th:href="@{/ticket/submit}">Submit Bug</a>
+        </div>
+        <div th:if="${userBugs != null}" class="col-md-9 d-flex justify-content-end">
+            <div class="col-md-5 me-3">
+                <input type="text" class="form-control" placeholder="Search bug reports">
+            </div>
+            <div class="col-md-2">
+                <select class="form-select" aria-label="Filter by status">
+                    <option value="">All Status</option>
+                    <option value="Open">Open</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Fixed">Fixed</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Bug Cards -->
+        <div class="col">
+            <div th:if="${userBugs == null}">
+                <div class="col text-center" style="background-color: #f5f5f5; padding: 20px;">
+                    <img th:src="@{/images/bug.png}" alt="Bug Icon" style="width: 100px; height: 100px;">
+                    <h1>Welcome to Bug Tracker</h1>
+                    <p class="lead">Submit and track the status of your bugs</p>
+                    <p>You can use this platform to submit and keep track any bugs you have found within our projects. To get started, please log in or register.</p>
+                    <div>
+                        <a th:href="@{/login}" class="btn btn-primary" style="margin-right: 10px;">Log In</a>
+                        <a th:href="@{/register}" class="btn btn-secondary">Register</a>
+                    </div>
+                </div>
+            </div>
+            <div class="row row-cols-1 row-cols-md-2 g-4">
+                <!-- Loop through userBugs -->
+                <div th:each="bug : ${userBugs}" class="col">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${bug.title}"></h5>
+                            <h6 class="card-subtitle mb-2 text-muted" th:text="${bug.project.name}"></h6>
+                            <p class="card-text" th:text="${bug.description}"></p>
+                            <div class="d-flex justify-content-between">
+                                <span class="badge bug-status" th:text="${bug.status}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 <!-- Include the footer -->
 <div th:insert="~{includes/footer.html}"></div>

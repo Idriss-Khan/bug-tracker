@@ -1,6 +1,8 @@
 package com.example.bugtracker.controller;
 
+import com.example.bugtracker.model.Bug;
 import com.example.bugtracker.model.User;
+import com.example.bugtracker.service.BugService;
 import com.example.bugtracker.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.List;
 
 /**
  * Rest controller for handling the homepage and registration.
@@ -23,6 +26,8 @@ public class HomeController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private BugService bugService;
 
     /**
      * Returns home page.
@@ -33,8 +38,19 @@ public class HomeController {
     @GetMapping()
     public ModelAndView viewHomePage(Model model, Principal principal) {
         ModelAndView mav = new ModelAndView("index");
+
+        if (principal != null) {
+            String email = principal.getName();
+            User currentUser = userService.getUserByEmail(email);
+            List<Bug> userBugs = bugService.getBugsByUser(currentUser);
+            mav.addObject("userBugs", userBugs);
+        }
+
         return mav;
     }
+
+
+
 
     /**
      * Returns registration page.
@@ -73,7 +89,6 @@ public class HomeController {
         mav = new ModelAndView("register_success");
         return mav;
     }
-
 
     /**
      * Returns login page.

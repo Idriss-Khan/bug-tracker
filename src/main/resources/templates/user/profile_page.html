@@ -1,7 +1,6 @@
 <!-- Include the header -->
 <div th:insert="~{includes/header.html}" th:with="pageTitle='My Profile'"></div>
 
-
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-4">
@@ -68,32 +67,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    function previewProfileImage(event) {
-        const input = event.target;
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const profileImage = document.querySelector('.profile-image');
-                profileImage.src = e.target.result;
-                showActionIcons(); // Show action-icons when profile image is uploaded
-            };
-            reader.readAsDataURL(input.files[0]);
-        }
-    }
-
-    function showActionIcons() {
-        const actionIcons = document.querySelector('.action-icons');
-        actionIcons.style.display = 'block'; // Display the action-icons
-    }
-
-    // Initially hide the action-icons
-    document.addEventListener('DOMContentLoaded', function () {
-        const actionIcons = document.querySelector('.action-icons');
-        actionIcons.style.display = 'none';
-    });
-</script>
 
 <!-- Include the footer -->
 <div th:insert="~{includes/footer.html}"></div>
