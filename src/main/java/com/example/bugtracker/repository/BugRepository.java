@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface BugRepository extends JpaRepository<Bug, Integer> {
     List<Bug> findByPostedBy(User postedBy);
+
 }

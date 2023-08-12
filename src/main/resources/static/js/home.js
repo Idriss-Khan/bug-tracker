@@ -73,3 +73,41 @@ document.addEventListener('DOMContentLoaded', function () {
     const actionIcons = document.querySelector('.action-icons');
     actionIcons.style.display = 'none';
 });
+
+// Search and Filter JS
+
+const statusFilter = document.getElementById('statusFilter');
+const bugCards = document.querySelectorAll('.bug-card');
+const bugSearchInput = document.getElementById('bugSearch');
+
+bugSearchInput.addEventListener('input', () => {
+    const searchQuery = bugSearchInput.value.toLowerCase();
+
+    bugCards.forEach(card => {
+        const cardTitle = card.querySelector('.card-title').textContent.toLowerCase();
+        const cardStatus = card.classList.contains(statusFilter.value);
+        const titleMatches = cardTitle.includes(searchQuery);
+
+        if ((statusFilter.value === '' || cardStatus) && titleMatches) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+});
+
+statusFilter.addEventListener('change', () => {
+    const selectedStatus = statusFilter.value;
+
+    bugCards.forEach(card => {
+        const cardStatus = card.classList.contains(selectedStatus);
+        const cardTitle = card.querySelector('.card-title').textContent.toLowerCase();
+        const titleMatches = cardTitle.includes(bugSearchInput.value.toLowerCase());
+
+        if ((selectedStatus === '' || cardStatus) && titleMatches) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+});
