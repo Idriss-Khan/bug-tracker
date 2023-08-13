@@ -48,6 +48,9 @@
                             <p class="card-text" th:text="${bug.description}"></p>
                             <div class="d-flex justify-content-between">
                                 <span class="badge bug-status" th:text="${bug.status}"></span>
+                                <a th:href="@{/ticket/view/{id}(id=${bug.id})}" class="badge bg-dark text-white bug-details" style="text-decoration: none">
+                                    View Details
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -56,8 +59,6 @@
         </div>
     </div>
 </div>
-
-
 
 <!-- Include the footer -->
 <div th:insert="~{includes/footer.html}"></div>

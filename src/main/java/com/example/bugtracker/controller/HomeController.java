@@ -46,7 +46,6 @@ public class HomeController {
         return mav;
     }
 
-
     /**
      * Returns registration page.
      * @return ModelAndView object of the registration page

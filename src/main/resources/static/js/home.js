@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 badge.classList.add("bg-success");
                 break;
             case "Closed":
-                badge.classList.add("bg-secondary");
+                badge.classList.add("bg-danger");
                 break;
             default:
                 badge.classList.add("bg-light");
@@ -48,6 +48,30 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+
+// Changes priority colours for bugs
+document.addEventListener("DOMContentLoaded", function() {
+    var badgeElements = document.querySelectorAll(".badge.bug-priority");
+
+    badgeElements.forEach(function(badge) {
+        var priority = badge.textContent.trim();
+        switch (priority) {
+            case "High":
+                badge.classList.add("bg-danger");
+                break;
+            case "Medium":
+                badge.classList.add("bg-success");
+                break;
+            case "Low":
+                badge.classList.add("bg-info");
+                break;
+            default:
+                badge.classList.add("bg-light");
+                break;
+        }
+    });
+});
+
 
 // User profile page - changes user profile image
 function previewProfileImage(event) {

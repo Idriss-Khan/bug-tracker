@@ -10,5 +10,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/profileimg/**")
                 .addResourceLocations("file:src/main/resources/static/profileimg/");
+
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("file:src/main/resources/static/images/");
     }
 }

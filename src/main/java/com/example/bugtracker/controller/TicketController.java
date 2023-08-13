@@ -54,4 +54,18 @@ public class TicketController {
         return mav;
     }
 
+
+    /**
+     * Returns bug detail page
+     */
+    @GetMapping("/view/{id}")
+    public ModelAndView viewBugPage(@PathVariable("id") Integer id) {
+        ModelAndView mav = new ModelAndView("bug_detail");
+        Bug bug = bugService.getBugById(id);
+        mav.addObject("bug", bug);
+        return mav;
+    }
+
+
+
 }
