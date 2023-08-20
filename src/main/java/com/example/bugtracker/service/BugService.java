@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -103,6 +104,28 @@ public class BugService {
 
     public List<Bug> getBugsByUser(User user) {
         return bugRepository.findByPostedBy(user);
+    }
+
+    public int getTotalBugCount() {
+        return bugRepository.countAllBugs();
+    }
+
+    public int getOpenBugCount() {
+        return bugRepository.countByStatusNot("Closed");
+    }
+
+    public int getClosedBugCount() {
+        return bugRepository.countByStatus("Closed");
+    }
+
+    public int getBugsDueToday() {
+        LocalDate today = LocalDate.now();
+        return bugRepository.countByDue(today);
+    }
+
+    public int getBugsDueIn7Days() {
+        LocalDate in7Days = LocalDate.now().plusDays(7);
+        return bugRepository.countByDueBetween(LocalDate.now(), in7Days);
     }
 
 

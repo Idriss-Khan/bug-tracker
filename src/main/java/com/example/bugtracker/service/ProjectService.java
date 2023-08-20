@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 @Service
 public class ProjectService {
@@ -55,15 +56,9 @@ public class ProjectService {
         bugRepository.deleteById(bugId);
     }
 
-    public void addAssociatedUser(Integer projectId, User user) {
-        Project project = getProjectById(projectId);
-        project.addAssociatedUser(user);
-        projectRepository.save(project);
+    public Set<Project> getProjectsForUser(User user) {
+        // Retrieve projects where the user is the manager or an associated user
+        return projectRepository.findByProjectManagerOrAssociatedUsers(user, user);
     }
 
-    public void removeAssociatedUser(Integer projectId, User user) {
-        Project project = getProjectById(projectId);
-        project.removeAssociatedUser(user);
-        projectRepository.save(project);
-    }
 }

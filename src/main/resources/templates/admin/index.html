@@ -1,58 +1,70 @@
 <!-- Include the sidebar -->
 <div th:replace="~{admin/includes/sidebar.html}"></div>
 
-    <div class="bug-cards-section">
-        <div class="bug-card">
-            <div class="number">50</div>
-            <div class="title">Total Bugs</div>
-        </div>
-        <div class="bug-card">
-            <div class="number">20</div>
-            <div class="title">Open Bugs</div>
-        </div>
-        <div class="bug-card">
-            <div class="number">30</div>
-            <div class="title">Closed Bugs</div>
-        </div>
-        <div class="bug-card">
-            <div class="number">15</div>
-            <div class="title">Due Today</div>
-        </div>
-        <div class="bug-card">
-            <div class="number">12</div>
-            <div class="title">Due in 7 Days</div>
-        </div>
+<div class="bug-cards-section">
+    <div class="bug-card">
+        <div class="number" th:text="${totalBugs}"></div>
+        <div class="title">Total Bugs</div>
     </div>
+    <div class="bug-card">
+        <div class="number" th:text="${openBugs}"></div>
+        <div class="title">Open Bugs</div>
+    </div>
+    <div class="bug-card">
+        <div class="number" th:text="${closedBugs}"></div>
+        <div class="title">Closed Bugs</div>
+    </div>
+    <div class="bug-card">
+        <div class="number" th:text="${dueToday}"></div>
+        <div class="title">Due Today</div>
+    </div>
+    <div class="bug-card">
+        <div class="number" th:text="${dueIn7Days}"></div>
+        <div class="title">Due in 7 Days</div>
+    </div>
+</div>
 
     <div class="section-line"></div>
 
     <div class="bug-table">
         <div class="bug-table-headings">
             <div class="bug-heading">BUG</div>
+            <div class="bug-heading">PRIORITY</div>
             <div class="bug-heading">STATUS</div>
             <div class="bug-heading">CREATED</div>
             <div class="bug-heading">DUE</div>
             <div class="bug-heading">REPORTER</div>
+            <div class="bug-heading">ACTIONS</div>
         </div>
-        <div class="project-row" onclick="toggleTable(this)">
-            <div class="project-title"><i class='bx bxs-plus-square bx-flip-horizontal' style='color:#353333' ></i>
-                Project Title
+
+        <div th:each="project : ${userProjects}">
+            <div class="project-row" onclick="toggleTable(this)">
+                <div class="project-title"><i class='bx bxs-plus-square bx-flip-horizontal' style='color:#353333' ></i>
+                    <span th:text="${project.name}"></span>
+                </div>
             </div>
-        </div>
-        <div class="bug-table-content">
-            <div class="bug-row">
-                <div class="bug-cell">Bug 1</div>
-                <div class="bug-cell">Open</div>
-                <div class="bug-cell">2023-07-10</div>
-                <div class="bug-cell">2023-07-20</div>
-                <div class="bug-cell">John Doe</div>
-            </div>
-            <div class="bug-row">
-                <div class="bug-cell">Bug 2</div>
-                <div class="bug-cell">Closed</div>
-                <div class="bug-cell">2023-07-11</div>
-                <div class="bug-cell">2023-07-15</div>
-                <div class="bug-cell">Jane Smith</div>
+
+            <!-- Iterate through bugs of each project -->
+            <div class="bug-table-content">
+                <div th:each="bug : ${project.bugs}" th:if="${bug.assignedUser == currentUser}" class="bug-row">
+                    <div class="bug-cell" th:text="${bug.title}"></div>
+                    <div class="bug-cell" th:text="${bug.priority}"></div>
+                    <div class="bug-cell" th:text="${bug.status}"></div>
+                    <div class="bug-cell" th:text="${bug.created}"></div>
+                    <div class="bug-cell" th:text="${bug.due}"></div>
+                    <div class="bug-cell" th:text="${bug.postedBy}"></div>
+                    <div class="bug-cell">
+
+                        <a th:href="@{/admin/bug/view/{id}(id=${bug.id})}">
+                            <i class='bx bx-show'></i>
+                        </a>
+
+                        <a th:href="@{/admin/bug/edit/{id}(id=${bug.id})}">
+                            <i class='bx bx-edit'></i>
+                        </a>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
