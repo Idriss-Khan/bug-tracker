@@ -1,6 +1,7 @@
 package com.example.bugtracker.model;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
@@ -29,8 +30,10 @@ public class Bug {
 
     private String priority;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate created;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate due;
 
     @ManyToOne
@@ -40,6 +43,18 @@ public class Bug {
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
+
+    @ManyToOne
+    @JoinColumn(name = "assigned_user")
+    private User assignedUser;
+
+    public User getAssignedUser() {
+        return assignedUser;
+    }
+
+    public void setAssignedUser(User assignedUser) {
+        this.assignedUser = assignedUser;
+    }
 
     @Transient
     private List<MultipartFile> bugImages;

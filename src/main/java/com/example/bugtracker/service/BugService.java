@@ -2,6 +2,7 @@ package com.example.bugtracker.service;
 
 import com.example.bugtracker.model.Bug;
 import com.example.bugtracker.model.BugImage;
+import com.example.bugtracker.model.Project;
 import com.example.bugtracker.model.User;
 import com.example.bugtracker.repository.BugImageRepository;
 import com.example.bugtracker.repository.BugRepository;
@@ -24,10 +25,12 @@ import java.util.NoSuchElementException;
 public class BugService {
     private final BugRepository bugRepository;
     private BugImageRepository bugImageRepository;
+    private UserService userService;
 
-    public BugService(BugRepository bugRepository, BugImageRepository bugImageRepository) {
+    public BugService(BugRepository bugRepository, BugImageRepository bugImageRepository, UserService userService) {
         this.bugRepository = bugRepository;
         this.bugImageRepository = bugImageRepository;
+        this.userService = userService;
     }
 
     public Bug createBug(Bug bug, List<MultipartFile> bugImages) {
@@ -50,6 +53,20 @@ public class BugService {
         bugImageRepository.saveAll(bugImageEntities);
 
         return savedBug;
+    }
+
+    public void updateBug(Bug existingBug, Bug updatedBug) {
+        existingBug.setTitle(updatedBug.getTitle());
+        existingBug.setDescription(updatedBug.getDescription());
+        existingBug.setStepsToReproduce(updatedBug.getStepsToReproduce());
+        existingBug.setDue(updatedBug.getDue());
+        existingBug.setPriority(updatedBug.getPriority());
+        existingBug.setStatus(updatedBug.getStatus());
+
+        User assignedUser = userService.get(updatedBug.getAssignedUser().getId());
+        existingBug.setAssignedUser(assignedUser);
+
+        bugRepository.save(existingBug);
     }
 
     private String saveImageLocally(MultipartFile image) {

@@ -2,7 +2,6 @@ package com.example.bugtracker.controller.admin;
 
 
 import com.example.bugtracker.model.Project;
-import com.example.bugtracker.model.Role;
 import com.example.bugtracker.model.User;
 import com.example.bugtracker.service.ProjectService;
 import com.example.bugtracker.service.UserService;
@@ -83,7 +82,7 @@ public class AdminProjectController {
 
 
     @PostMapping("/edit/{id}")
-    public RedirectView updateCategory(@PathVariable("id") Integer id, @ModelAttribute("project") Project project) {
+    public RedirectView updateProject(@PathVariable("id") Integer id, @ModelAttribute("project") Project project) {
         projectService.updateProject(project);
         return new RedirectView("/admin/project");
     }

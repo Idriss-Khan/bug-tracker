@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -57,7 +58,7 @@ public class AdminBugController {
     }
 
     /**
-     * Returns to bug details page
+     * Returns bug details page
      */
     @GetMapping("/view/{id}")
     public ModelAndView getBugDetailPage(@PathVariable("id") Integer id) {
@@ -68,6 +69,32 @@ public class AdminBugController {
         mav.addObject("bug", bug);
 
         return mav;
+    }
+
+    /**
+     * Returns to bug update page
+     */
+    @GetMapping("/edit/{id}")
+    public ModelAndView getUpdateBugPage(@PathVariable("id") Integer id) {
+        ModelAndView mav = new ModelAndView("admin/bug/update_bug");
+        Bug bug = bugService.getBugById(id);
+        mav.addObject("bug", bug);
+
+        // Fetch associated users from the project
+        Set<User> associatedUsers = bug.getProject().getAssociatedUsers();
+        mav.addObject("associatedUsers", associatedUsers);
+
+        mav.addObject("pageTitle", "Update Bug Details");
+        return mav;
+    }
+
+
+    @PostMapping("/edit/{id}")
+    public RedirectView updateBug(@PathVariable("id") Integer id, @ModelAttribute("bug") Bug updatedBug) {
+        Bug existingBug = bugService.getBugById(id);
+
+        bugService.updateBug(existingBug, updatedBug);
+        return new RedirectView("/admin/bug/edit/" + id);
     }
 
 }
