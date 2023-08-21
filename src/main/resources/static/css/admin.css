@@ -418,8 +418,15 @@ body {
     overflow: hidden; /* Hide any overflowing text */
     text-overflow: ellipsis; /* Show ellipsis (...) for truncated text */
 }
-
 /* PROFILE SECTION STYLES */
+
+/* PAGE CONTAINER */
+.page-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* PROFILE CARD */
 .profile-card {
     width: 400px;
     background-color: #f9f9f9;
@@ -429,7 +436,6 @@ body {
     align-items: center;
     margin-top: 20px;
     margin-left: 20px;
-    margin-right: 20px;
     padding: 20px;
 }
 
@@ -481,6 +487,38 @@ body {
 .save-button:hover {
     background-color: #19215d;
     transform: scale(1.05);
+}
+
+/* PROJECT CARD */
+.project-card {
+    flex-grow: 1;
+    margin-left: 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+.project-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ccc;
+}
+
+.project-table th, .project-table td {
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ccc;
+}
+
+.project-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+}
+
+.project-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
 }
 
 /* PROJECT SECTION STYLES */

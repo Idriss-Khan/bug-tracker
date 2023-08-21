@@ -6,6 +6,7 @@ import com.example.bugtracker.model.User;
 import com.example.bugtracker.repository.BugRepository;
 import com.example.bugtracker.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

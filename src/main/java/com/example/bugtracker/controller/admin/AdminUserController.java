@@ -1,13 +1,20 @@
 package com.example.bugtracker.controller.admin;
 
+import com.example.bugtracker.model.Bug;
+import com.example.bugtracker.model.Project;
 import com.example.bugtracker.model.Role;
 import com.example.bugtracker.model.User;
+import com.example.bugtracker.service.ProjectService;
 import com.example.bugtracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Rest controller for handling the admin user page.
@@ -18,6 +25,8 @@ public class AdminUserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private ProjectService projectService;
 
     @GetMapping
     public ModelAndView getAdminUsersPage() {
@@ -37,6 +46,20 @@ public class AdminUserController {
         mav.addObject("pageTitle", "View User Details");
         mav.addObject("user", user);
         mav.addObject("listRoles", listRoles);
+
+        // Passing in projects and tasks
+        Set<Project> projects = projectService.getProjectsForUser(user);
+        mav.addObject("userProjects", projects);
+
+        Map<Project, List<Bug>> projectBugsMap = new HashMap<>();
+        for (Project project : projects) {
+            List<Bug> userBugs = project.getBugs().stream()
+                    .filter(bug -> bug.getAssignedUser().equals(user))
+                    .collect(Collectors.toList());
+            projectBugsMap.put(project, userBugs);
+        }
+        mav.addObject("projectBugsMap", projectBugsMap);
+
         return mav;
     }
 

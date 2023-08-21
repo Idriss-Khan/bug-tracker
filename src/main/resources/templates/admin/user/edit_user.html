@@ -1,10 +1,10 @@
 <!-- Include the sidebar -->
 <div th:replace="~{admin/includes/sidebar.html}"></div>
-
+<div class="page-container">
     <form th:action="@{/admin/user/save}" th:object="${user}" method="post">
         <div class="profile-card">
             <div class="profile-photo">
-                <img th:src="@{profileimg}" alt="Profile Photo">
+                <img th:src="@{|${user.profilePicture}|}" alt="Profile Photo">
             </div>
 
             <div class="profile-details">
@@ -45,9 +45,43 @@
 
                 <button type="submit" class="save-button">Update</button>
             </div>
-
         </div>
     </form>
+
+    <div class="project-card">
+        <table class="project-table">
+            <thead>
+            <tr>
+                <th>Project Name</th>
+                <th>Task Title</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Date Created</th>
+                <th>Date Due</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="entry : ${projectBugsMap}">
+                <tr th:class="${'project ' + 'project-' + entry.key.id}">
+                    <td th:rowspan="${#lists.size(entry.value) + 1}" th:text="${entry.key.name}"></td>
+                </tr>
+                <th:block th:each="bug : ${entry.value}">
+                    <tr>
+                        <td th:text="${bug.title}"></td>
+                        <td th:text="${bug.priority}"></td>
+                        <td th:text="${bug.status}"></td>
+                        <td th:text="${bug.created}"></td>
+                        <td th:text="${bug.due}"></td>
+                    </tr>
+                </th:block>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
 
 <!-- Include the footer -->
 <div th:replace="~{admin/includes/footer.html}"></div>
