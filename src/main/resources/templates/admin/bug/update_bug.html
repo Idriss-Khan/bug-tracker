@@ -1,0 +1,74 @@
+<!-- Include the sidebar -->
+<div th:replace="~{admin/includes/sidebar.html}"></div>
+
+<div id="project-form">
+  <div class="form-section">
+    <form th:action="@{/admin/bug/edit/{id}(id=${bug.id})}" th:object="${bug}" th:method="post">
+
+      <div class="form-group">
+        <label for="name">Project:</label>
+        <input type="text" id="project" name="project" th:field="*{project.name}" readonly>
+      </div>
+
+      <div class="form-group">
+        <label for="name">Bug Title:</label>
+        <input type="text" id="name" name="name" th:field="*{title}" required>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" th:field="*{description}" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Steps To Reproduce:</label>
+        <textarea id="stepsToReproduce" name="stepsToReproduce" th:field="*{stepsToReproduce}" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="due-date">Due Date:</label>
+        <input type="date" id="due-date" name="due" th:field="*{due}" th:format="${#dates.format(due, 'yyyy-MM-dd')}" required>
+      </div>
+
+
+      <div class="form-group">
+        <label for="priority">Priority:</label>
+        <select id="priority" name="priority" th:field="*{priority}" required>
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="status">Status:</label>
+        <select id="status" name="status" th:field="*{status}" required>
+          <option value="New">New</option>
+          <option value="In-Progress">In Progress</option>
+          <option value="Resolved">Resolved</option>
+          <option value="Closed">Closed</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="assignedUser">Assigned Developer:</label>
+        <select id="assignedUser" name="assignedUser.id">
+          <option value="" th:if="${bug.assignedUser == null}">Select a Developer</option>
+          <option th:each="developer : ${associatedUsers}" th:value="${developer.id}" th:selected="${bug.assignedUser != null and bug.assignedUser.id == developer.id}">
+            <!-- Display developer's name -->
+            <span th:text="${developer}"></span>
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <button type="submit">Update Bug</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+<!-- Include the footer -->
+<div th:replace="~{admin/includes/footer.html}"></div>

@@ -1,0 +1,76 @@
+<!-- Include the header -->
+<div th:insert="~{includes/header.html}" th:with="pageTitle='Report Details'"></div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h1 th:text="${bug.title}"></h1>
+            <hr>
+
+            <!-- Bug Details -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    Ticket Details
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label" >Bug Status:</label>
+                        <span class="badge bug-status" th:text="${bug.status}"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Priority:</label>
+                        <span class="badge bug-priority" th:text="${bug.priority}"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Created Date:</label>
+                        <span th:text="${bug.created}"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Submitted By:</label>
+                        <span th:text="${bug.postedBy}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ticket Description -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    Ticket Description
+                </div>
+                <div class="card-body">
+                    <p th:text="${bug.description}"></p>
+                </div>
+            </div>
+
+            <!-- Steps to Reproduce -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    Steps to Reproduce
+                </div>
+                <div class="card-body">
+                    <p th:text="${bug.stepsToReproduce}"></p>
+                </div>
+            </div>
+
+            <!-- Screenshots -->
+            <div class="card mt-4">
+                <div class="card-header">
+                    Screenshots
+                </div>
+                <div class="card-body">
+                    <th:block th:each="bugImage : ${bug.bugImageEntities}">
+                        <img th:src="@{|${bugImage.imageName}|}" th:alt="${'Screenshot ' + bugImage.id}">
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+<!-- Include the footer -->
+<div th:insert="~{includes/footer.html}"></div>

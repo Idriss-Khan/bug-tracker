@@ -1,0 +1,92 @@
+<!-- Include the sidebar -->
+<div th:replace="~{admin/includes/sidebar.html}"></div>
+<div class="page-container">
+  <form th:action="@{/admin/profile/save}" th:object="${user}" method="post">
+    <div class="profile-card">
+      <div class="profile-photo">
+        <img th:src="@{|${user.profilePicture}|}" alt="Profile Photo">
+      </div>
+
+      <div class="profile-details">
+        <div class="detail">
+          <label for="user-id">User ID:</label>
+          <input type="text" id="user-id" th:field="*{id}" readonly>
+        </div>
+
+        <div class="detail">
+          <label for="first-name">First Name:</label>
+          <input type="text" id="first-name" th:field="*{firstName}" required minlength="2" maxlength="20">
+        </div>
+
+        <div class="detail">
+          <label for="last-name">Last Name:</label>
+          <input type="text" id="last-name" th:field="*{lastName}" required minlength="2" maxlength="20">
+        </div>
+
+        <div class="detail">
+          <label for="email">Email:</label>
+          <input type="email" id="email" th:field="*{email}" required>
+        </div>
+
+        <div class="detail">
+          <label for="phone">Phone Number:</label>
+          <input type="text" id="phone" th:field="*{phoneNumber}">
+        </div>
+
+        <div class="detail">
+          <label for="password">Password:</label>
+          <input type="password" id="password" th:field="*{password}" placeholder="••••••••" required>
+        </div>
+
+        <div class="detail">
+          <span>Roles:</span>
+          <div style="margin-left: 75px">
+            <div th:each="role: ${user.roles}">
+              <span th:text="${role.name}"></span>
+              <br>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="save-button">Update</button>
+      </div>
+    </div>
+  </form>
+
+  <div class="project-card">
+    <table class="project-table">
+      <thead>
+      <tr>
+        <th>Project Name</th>
+        <th>Task Title</th>
+        <th>Priority</th>
+        <th>Status</th>
+        <th>Date Created</th>
+        <th>Date Due</th>
+      </tr>
+      </thead>
+      <tbody>
+      <th:block th:each="entry : ${projectBugsMap}">
+        <tr th:class="${'project ' + 'project-' + entry.key.id}">
+          <td th:rowspan="${#lists.size(entry.value) + 1}" th:text="${entry.key.name}"></td>
+        </tr>
+        <th:block th:each="bug : ${entry.value}">
+          <tr>
+            <td th:text="${bug.title}"></td>
+            <td th:text="${bug.priority}"></td>
+            <td th:text="${bug.status}"></td>
+            <td th:text="${bug.created}"></td>
+            <td th:text="${bug.due}"></td>
+          </tr>
+        </th:block>
+      </th:block>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+
+
+<!-- Include the footer -->
+<div th:replace="~{admin/includes/footer.html}"></div>
