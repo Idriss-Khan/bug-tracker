@@ -9,7 +9,9 @@ import com.example.bugtracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,10 +65,11 @@ public class AdminUserController {
         return mav;
     }
 
-    // saves user
     @PostMapping("/save")
     public ModelAndView saveUser(User user) {
         ModelAndView mav = new ModelAndView("redirect:/admin/user");
+        User existingUser = userService.getUserByEmail(user.getEmail());
+        user.setProfilePicture(existingUser.getProfilePicture());
         userService.save(user);
         return mav;
     }

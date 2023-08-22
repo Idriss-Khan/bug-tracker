@@ -208,6 +208,8 @@ body {
     margin-right: 10px;
     position: relative;
     font-size: 28px;
+    text-decoration: none;
+    color: black;
 }
 
 .notification-count {
