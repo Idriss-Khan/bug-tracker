@@ -64,6 +64,31 @@
     </div>
 </div>
 
+<div class="section-line"></div>
+
+<div class="comment-section">
+    <div class="add-comment-box">
+        <form id="comment-form" th:action="@{/admin/bug/addcomment}" method="post">
+            <input type="hidden" name="bugId" th:value="${bug.id}" />
+            <textarea id="commentContent" class="add-comment-textarea" name="commentContent" placeholder="Enter your comment"></textarea>
+            <button type="submit" class="post-comment-button">Post Comment</button>
+        </form>
+    </div>
+
+    <div class="comments">
+        <div th:each="comment : ${comments}" class="comment">
+            <div class="user-profile">
+                <img class="profile-image" th:src="@{|${comment.user.profilePicture}|}" alt="Profile Photo">
+                <div class="user-info">
+                    <div class="user-name" th:text="${comment.user}"></div>
+                    <div class="post-date" th:text="'Submitted on ' + ${#dates.format(comment.createdAt, 'dd/MM/yyyy')} + ' at ' + ${#dates.format(comment.createdAt, 'hh:mm a')}"></div>
+                </div>
+            </div>
+            <div class="comment-content" th:text="${comment.content}"></div>
+    </div>
+    </div>
+</div>
+
 
 <!-- Include the footer -->
 <div th:replace="~{admin/includes/footer.html}"></div>

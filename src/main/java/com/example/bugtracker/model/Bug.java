@@ -48,6 +48,17 @@ public class Bug {
     @JoinColumn(name = "assigned_user")
     private User assignedUser;
 
+    @OneToMany(mappedBy = "bug", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     public User getAssignedUser() {
         return assignedUser;
     }

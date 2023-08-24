@@ -1,19 +1,20 @@
 package com.example.bugtracker.controller.admin;
 
 import com.example.bugtracker.model.Bug;
-import com.example.bugtracker.model.Project;
+import com.example.bugtracker.model.Comment;
 import com.example.bugtracker.model.User;
 import com.example.bugtracker.service.BugService;
+import com.example.bugtracker.service.CommentService;
 import com.example.bugtracker.service.ProjectService;
 import com.example.bugtracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import java.security.Principal;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 /**
@@ -29,6 +30,8 @@ public class AdminBugController {
     private BugService bugService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CommentService commentService;
 
     /**
      * Returns page to submit bugs.
@@ -61,15 +64,49 @@ public class AdminBugController {
      * Returns bug details page
      */
     @GetMapping("/view/{id}")
-    public ModelAndView getBugDetailPage(@PathVariable("id") Integer id) {
+    public ModelAndView getBugDetailPage(@PathVariable("id") Integer id, Principal principal) {
         ModelAndView mav = new ModelAndView("admin/bug/bug_detail");
         Bug bug = bugService.getBugById(id);
 
         mav.addObject("pageTitle", "Bug Details");
         mav.addObject("bug", bug);
 
+        List<Comment> comments = commentService.getCommentsForBug(bug);
+        mav.addObject("comments", comments);
+
+        String email = principal.getName();
+        User currentUser = userService.getUserByEmail(email);
+        mav.addObject("user", currentUser);
+
         return mav;
     }
+
+    @PostMapping("/addcomment")
+    public RedirectView addComment(
+            @RequestParam("bugId") Integer bugId,
+            @RequestParam("commentContent") String commentContent,
+            @RequestParam(value = "parentCommentId", required = false) Integer parentCommentId,
+            Principal principal) {
+        Bug bug = bugService.getBugById(bugId);
+        User currentUser = userService.getUserByEmail(principal.getName());
+
+        Comment comment = new Comment();
+        comment.setBug(bug);
+        comment.setUser(currentUser);
+        comment.setContent(commentContent);
+        comment.setCreatedAt(new Date());
+
+        if (parentCommentId != null) {
+            Comment parentComment = commentService.getCommentById(parentCommentId);
+            comment.setParentComment(parentComment);
+        }
+
+        commentService.saveComment(comment);
+
+        return new RedirectView("/admin/bug/view/" + bugId);
+    }
+
+
 
     /**
      * Returns to bug update page
