@@ -21,12 +21,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 @Service
 public class BugService {
     private final BugRepository bugRepository;
     private BugImageRepository bugImageRepository;
     private UserService userService;
+    @Autowired
+    private NotificationService notificationService;
 
     public BugService(BugRepository bugRepository, BugImageRepository bugImageRepository, UserService userService) {
         this.bugRepository = bugRepository;
@@ -57,6 +60,24 @@ public class BugService {
     }
 
     public void updateBug(Bug existingBug, Bug updatedBug) {
+
+        User oldAssignedUser = existingBug.getAssignedUser();
+        User newAssignedUser = updatedBug.getAssignedUser();
+
+        boolean assignedUserChanged = !Objects.equals(oldAssignedUser, newAssignedUser);
+
+        if (assignedUserChanged) {
+            if (oldAssignedUser != null && !Objects.equals(oldAssignedUser.getId(), newAssignedUser.getId())) {
+                String removedMessage = "You have been removed from working on bug: " + existingBug.getTitle();
+                notificationService.createNotification(oldAssignedUser, removedMessage);
+            }
+
+            if (newAssignedUser != null && !Objects.equals(newAssignedUser.getId(), oldAssignedUser.getId())) {
+                String assignedMessage = "You have been assigned to work on bug: " + existingBug.getTitle();
+                notificationService.createNotification(newAssignedUser, assignedMessage);
+            }
+        }
+
         existingBug.setTitle(updatedBug.getTitle());
         existingBug.setDescription(updatedBug.getDescription());
         existingBug.setStepsToReproduce(updatedBug.getStepsToReproduce());

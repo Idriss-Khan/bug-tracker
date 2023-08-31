@@ -6,11 +6,11 @@ import com.example.bugtracker.model.User;
 import com.example.bugtracker.repository.BugRepository;
 import com.example.bugtracker.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Set;
 
 @Service
@@ -19,6 +19,8 @@ public class ProjectService {
     private final ProjectRepository projectRepository;
     @Autowired
     private final BugRepository bugRepository;
+    @Autowired
+    private NotificationService notificationService;
 
     public ProjectService(ProjectRepository projectRepository, BugRepository bugRepository) {
         this.projectRepository = projectRepository;
@@ -26,10 +28,64 @@ public class ProjectService {
     }
 
     public Project createProject(Project project) {
-        return projectRepository.save(project);
+        Project savedProject = projectRepository.save(project);
+
+        if (savedProject.getProjectManager() != null) {
+            String notificationMessage = "You have been assigned as the project manager for project: " + savedProject.getName();
+            notificationService.createNotification(savedProject.getProjectManager(), notificationMessage);
+        }
+
+        return savedProject;
     }
-    public void updateProject(Project project) {
-        projectRepository.save(project);
+
+    public void updateProject(Project updatedProject) {
+        Project existingProject = projectRepository.findById(updatedProject.getId()).orElse(null);
+
+        if (existingProject != null) {
+            User oldProjectManager = existingProject.getProjectManager();
+            User newProjectManager = updatedProject.getProjectManager();
+
+            boolean projectManagerChanged = !Objects.equals(oldProjectManager, newProjectManager);
+
+            if (projectManagerChanged) {
+                if (oldProjectManager != null && !Objects.equals(oldProjectManager.getId(), newProjectManager.getId())) {
+                    String removedMessage = "You have been removed as the project manager from project: " + existingProject.getName();
+                    notificationService.createNotification(oldProjectManager, removedMessage);
+                }
+
+                if (newProjectManager != null && !Objects.equals(newProjectManager.getId(), oldProjectManager.getId())) {
+                    String assignedMessage = "You have been assigned as the project manager for project: " + existingProject.getName();
+                    notificationService.createNotification(newProjectManager, assignedMessage);
+                }
+            }
+
+            // Handle notifications for adding associated users
+            for (User newUser : updatedProject.getAssociatedUsers()) {
+                if (!existingProject.getAssociatedUsers().contains(newUser)) {
+                    String addedMessage = "You have been assigned to work on project: " + existingProject.getName();
+                    notificationService.createNotification(newUser, addedMessage);
+                }
+            }
+
+            // Handle notifications for removing associated users
+            for (User oldUser : existingProject.getAssociatedUsers()) {
+                if (!updatedProject.getAssociatedUsers().contains(oldUser)) {
+                    String removedMessage = "You have been removed as an associated user from project: " + existingProject.getName();
+                    notificationService.createNotification(oldUser, removedMessage);
+                }
+            }
+
+            existingProject.setName(updatedProject.getName());
+            existingProject.setDescription(updatedProject.getDescription());
+            existingProject.setStartDate(updatedProject.getStartDate());
+            existingProject.setEndDate(updatedProject.getEndDate());
+            existingProject.setStatus(updatedProject.getStatus());
+            existingProject.setPriority(updatedProject.getPriority());
+            existingProject.setProjectManager(updatedProject.getProjectManager());
+            existingProject.setAssociatedUsers(updatedProject.getAssociatedUsers());
+
+            projectRepository.save(existingProject);
+        }
     }
 
     public List<Project> getAllProjects() {

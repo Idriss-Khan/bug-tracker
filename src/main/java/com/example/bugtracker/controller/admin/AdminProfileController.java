@@ -4,6 +4,7 @@ import com.example.bugtracker.model.Bug;
 import com.example.bugtracker.model.Project;
 import com.example.bugtracker.model.Role;
 import com.example.bugtracker.model.User;
+import com.example.bugtracker.service.NotificationService;
 import com.example.bugtracker.service.ProjectService;
 import com.example.bugtracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class AdminProfileController {
     private UserService userService;
     @Autowired
     private ProjectService projectService;
+    @Autowired
+    private NotificationService notificationService;
 
 
     // returns user profile page
@@ -51,6 +54,9 @@ public class AdminProfileController {
             projectBugsMap.put(project, userBugs);
         }
         mav.addObject("projectBugsMap", projectBugsMap);
+
+        int notificationCount = notificationService.countUnreadNotifications(currentUser);
+        mav.addObject("notificationCount", notificationCount);
 
         return mav;
     }

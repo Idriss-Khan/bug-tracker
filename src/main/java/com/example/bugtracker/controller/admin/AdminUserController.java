@@ -4,6 +4,7 @@ import com.example.bugtracker.model.Bug;
 import com.example.bugtracker.model.Project;
 import com.example.bugtracker.model.Role;
 import com.example.bugtracker.model.User;
+import com.example.bugtracker.service.NotificationService;
 import com.example.bugtracker.service.ProjectService;
 import com.example.bugtracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,19 +30,27 @@ public class AdminUserController {
     private UserService userService;
     @Autowired
     private ProjectService projectService;
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping
-    public ModelAndView getAdminUsersPage() {
+    public ModelAndView getAdminUsersPage(Principal principal) {
         ModelAndView mav = new ModelAndView("admin/user/user");
         List<User> listUsers = userService.listAll(); // get all users
         mav.addObject("pageTitle", "Users");
         mav.addObject("users", listUsers); // Passing in users
+
+        String email = principal.getName();
+        User currentUser = userService.getUserByEmail(email);
+        int notificationCount = notificationService.countUnreadNotifications(currentUser);
+        mav.addObject("notificationCount", notificationCount);
+
         return mav;
     }
 
     // returns edit user page
     @GetMapping("/edit/{id}")
-    public ModelAndView editUser(@PathVariable("id") Integer id) {
+    public ModelAndView editUser(@PathVariable("id") Integer id, Principal principal) {
         ModelAndView mav = new ModelAndView("admin/user/edit_user");
         User user = userService.get(id);
         List<Role> listRoles = userService.getRoles();
@@ -61,6 +70,11 @@ public class AdminUserController {
             projectBugsMap.put(project, userBugs);
         }
         mav.addObject("projectBugsMap", projectBugsMap);
+
+        String email = principal.getName();
+        User currentUser = userService.getUserByEmail(email);
+        int notificationCount = notificationService.countUnreadNotifications(currentUser);
+        mav.addObject("notificationCount", notificationCount);
 
         return mav;
     }

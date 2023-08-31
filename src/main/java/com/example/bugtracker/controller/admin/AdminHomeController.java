@@ -4,6 +4,7 @@ import com.example.bugtracker.model.Bug;
 import com.example.bugtracker.model.Project;
 import com.example.bugtracker.model.User;
 import com.example.bugtracker.service.BugService;
+import com.example.bugtracker.service.NotificationService;
 import com.example.bugtracker.service.ProjectService;
 import com.example.bugtracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,8 @@ public class AdminHomeController {
     private ProjectService projectService;
     @Autowired
     private BugService bugService;
+    @Autowired
+    private NotificationService notificationService;
 
     // Returns developer homepage, displays projects and bug tasks the user is working on, and shows
     // summary of bugs
@@ -58,6 +61,9 @@ public class AdminHomeController {
         modelAndView.addObject("closedBugs", closedBugs);
         modelAndView.addObject("dueToday", dueToday);
         modelAndView.addObject("dueIn7Days", dueIn7Days);
+
+        int notificationCount = notificationService.countUnreadNotifications(currentUser);
+        modelAndView.addObject("notificationCount", notificationCount);
 
         return modelAndView;
     }

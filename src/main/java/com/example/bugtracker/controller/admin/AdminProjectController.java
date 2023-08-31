@@ -3,6 +3,7 @@ package com.example.bugtracker.controller.admin;
 
 import com.example.bugtracker.model.Project;
 import com.example.bugtracker.model.User;
+import com.example.bugtracker.service.NotificationService;
 import com.example.bugtracker.service.ProjectService;
 import com.example.bugtracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
+import java.security.Principal;
 import java.util.List;
 
 
@@ -25,12 +27,20 @@ public class AdminProjectController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private NotificationService notificationService;
 
     @GetMapping
-    public ModelAndView getAdminProjectPage() {
+    public ModelAndView getAdminProjectPage(Principal principal) {
         ModelAndView mav = new ModelAndView("admin/project/project");
         mav.addObject("pageTitle", "Projects");
         mav.addObject("projects", projectService.getAllProjects());
+
+        String email = principal.getName();
+        User currentUser = userService.getUserByEmail(email);
+        int notificationCount = notificationService.countUnreadNotifications(currentUser);
+        mav.addObject("notificationCount", notificationCount);
+
         return mav;
     }
 
@@ -38,7 +48,7 @@ public class AdminProjectController {
      * Returns the page for creating a project.
      */
     @GetMapping("/create")
-    public ModelAndView getAddProjectPage() {
+    public ModelAndView getAddProjectPage(Principal principal) {
         ModelAndView mav = new ModelAndView("admin/project/add_project");
         mav.addObject("pageTitle", "Add Project");
         mav.addObject("project", new Project());
@@ -47,6 +57,11 @@ public class AdminProjectController {
         // Fetch users with role "PROJECT MANAGER"
         List<User> projectManagers = userService.getUsersByRole("PROJECT MANAGER");
         mav.addObject("projectManagers", projectManagers);
+
+        String email = principal.getName();
+        User currentUser = userService.getUserByEmail(email);
+        int notificationCount = notificationService.countUnreadNotifications(currentUser);
+        mav.addObject("notificationCount", notificationCount);
 
         return mav;
     }
@@ -64,7 +79,7 @@ public class AdminProjectController {
      * Returns to project update page
      */
     @GetMapping("/edit/{id}")
-    public ModelAndView getUpdateProjectPage(@PathVariable("id") Integer id) {
+    public ModelAndView getUpdateProjectPage(@PathVariable("id") Integer id, Principal principal) {
         ModelAndView mav = new ModelAndView("admin/project/update_project");
 
         Project project = projectService.getProjectById(id);
@@ -77,6 +92,11 @@ public class AdminProjectController {
         mav.addObject("developers", developers);
 
         mav.addObject("pageTitle", "Update Project Details");
+
+        String email = principal.getName();
+        User currentUser = userService.getUserByEmail(email);
+        int notificationCount = notificationService.countUnreadNotifications(currentUser);
+        mav.addObject("notificationCount", notificationCount);
         return mav;
     }
 
@@ -91,7 +111,7 @@ public class AdminProjectController {
      * Returns to project details page
      */
     @GetMapping("/view/{id}")
-    public ModelAndView getProjectDetailPage(@PathVariable("id") Integer id) {
+    public ModelAndView getProjectDetailPage(@PathVariable("id") Integer id, Principal principal) {
         ModelAndView mav = new ModelAndView("admin/project/project_detail");
 
         // Fetch the project details from the service/repository based on the given id
@@ -99,6 +119,11 @@ public class AdminProjectController {
 
         mav.addObject("pageTitle", "Project Details");
         mav.addObject("project", project);
+
+        String email = principal.getName();
+        User currentUser = userService.getUserByEmail(email);
+        int notificationCount = notificationService.countUnreadNotifications(currentUser);
+        mav.addObject("notificationCount", notificationCount);
 
         return mav;
     }

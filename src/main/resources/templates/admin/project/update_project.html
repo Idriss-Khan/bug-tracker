@@ -45,7 +45,10 @@
             <div class="form-group">
                 <label for="manager">Manager:</label>
                 <select id="manager" name="projectManager.id">
-                    <option th:each="manager : ${projectManagers}" th:value="${manager.id}" th:text="${manager.firstName} + ' ' + ${manager.lastName}"></option>
+                    <option th:each="manager : ${projectManagers}"
+                            th:value="${manager.id}"
+                            th:text="${manager.firstName + ' ' + manager.lastName}"
+                            th:selected="${manager.id == project.projectManager.id}"></option>
                 </select>
             </div>
 

@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -28,6 +29,8 @@ public class UserService {
     private UserRepository userRepo;
     @Autowired
     private RoleRepository roleRepo;
+    @Autowired
+    private NotificationService notificationService;
 
     public void saveWithDefaultRole(User user) {
         // Encoded password
@@ -69,6 +72,32 @@ public class UserService {
                 BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
                 String encodedPassword = encoder.encode(user.getPassword());
                 user.setPassword(encodedPassword);
+            }
+
+            // Compare roles to identify changes
+            Set<Role> oldRoles = existingUser.getRoles();
+            Set<Role> newRoles = user.getRoles();
+
+            // Debug: Print old and new roles
+            System.out.println("Old Roles: " + oldRoles);
+            System.out.println("New Roles: " + newRoles);
+
+            // Check for added roles
+            for (Role newRole : newRoles) {
+                if (!oldRoles.contains(newRole)) {
+                    String addedRoleMessage = "You have been assigned the role: " + newRole.getName();
+                    System.out.println("Adding Role Notification: " + addedRoleMessage);
+                    notificationService.createNotification(existingUser, addedRoleMessage);
+                }
+            }
+
+            // Check for removed roles
+            for (Role oldRole : oldRoles) {
+                if (!newRoles.contains(oldRole)) {
+                    String removedRoleMessage = "Your role: " + oldRole.getName() + " has been removed";
+                    System.out.println("Removing Role Notification: " + removedRoleMessage);
+                    notificationService.createNotification(existingUser, removedRoleMessage);
+                }
             }
         }
 

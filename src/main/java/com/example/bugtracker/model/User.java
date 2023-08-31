@@ -4,7 +4,10 @@ package com.example.bugtracker.model;
 import jakarta.persistence.*;
 import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -51,6 +54,11 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")}
     )
     private Set<Role> roles= new HashSet<>();
+
+    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    private List<Notification> notifications = new ArrayList<>();
+
+
     public User() {
     }
 
@@ -136,6 +144,20 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void addNotification(Notification notification) {
+        notifications.add(notification);
+        notification.setUser(this);
+    }
+
+    public void removeNotification(Notification notification) {
+        notifications.remove(notification);
+        notification.setUser(null);
     }
 
     @Override
