@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" type="text/css" th:href="@{/css/admin.css}">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <script th:inline="javascript">
+        var csrfToken = /*[[${_csrf.token}]]*/ '';
+    </script>
 </head>
 <body>
 
@@ -69,10 +73,10 @@
             <a th:href="@{/admin/bug/submit}" class="submit-bug-button">
                 Submit Bug
             </a>
-            <span class="notification-icon">
-            <i class="bx bx-bell"></i>
-            <span class="notification-count" th:text="${notificationCount}"></span>
-        </span>
+            <a th:href="@{/admin/profile/notifications}" class="notification-icon">
+                <i class="bx bx-bell"></i>
+                <span class="notification-count" th:text="${notificationCount}"></span>
+            </a>
             <a th:href="@{/admin/profile}" class="profile-icon">
                 <i class="bx bx-user"></i>
             </a>

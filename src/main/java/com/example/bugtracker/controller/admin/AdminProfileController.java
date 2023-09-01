@@ -1,22 +1,18 @@
 package com.example.bugtracker.controller.admin;
 
-import com.example.bugtracker.model.Bug;
-import com.example.bugtracker.model.Project;
-import com.example.bugtracker.model.Role;
-import com.example.bugtracker.model.User;
+import com.example.bugtracker.model.*;
 import com.example.bugtracker.service.NotificationService;
 import com.example.bugtracker.service.ProjectService;
 import com.example.bugtracker.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -59,6 +55,32 @@ public class AdminProfileController {
         mav.addObject("notificationCount", notificationCount);
 
         return mav;
+    }
+
+    @GetMapping("/notifications")
+    public ModelAndView notificationPage(Principal principal) {
+        ModelAndView mav = new ModelAndView("admin/developer/notification");
+        mav.addObject("pageTitle", "Notifications");
+
+        String email = principal.getName();
+        User currentUser = userService.getUserByEmail(email);
+        mav.addObject("user", currentUser);
+
+        List<Notification> userNotifications = notificationService.getUserNotifications(currentUser);
+        mav.addObject("userNotifications", userNotifications);
+
+        int notificationCount = notificationService.countUnreadNotifications(currentUser);
+        mav.addObject("notificationCount", notificationCount);
+
+        return mav;
+    }
+
+    @PatchMapping("/markRead/{notificationId}")
+    public RedirectView markNotificationAsRead(@PathVariable Integer notificationId) {
+        notificationService.markNotificationAsRead(notificationId);
+        RedirectView redirectView = new RedirectView("/admin/profile/notifications");
+        redirectView.setExposeModelAttributes(false); // Optional: Prevent exposing model attributes in the URL
+        return redirectView;
     }
 
     @PostMapping("/save")

@@ -741,3 +741,81 @@ body::-webkit-scrollbar {
 }
 
 
+/* NOTIFICATION PAGE STYLES */
+
+.notification_page {
+    padding: 20px;
+}
+
+.notification_container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notification {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ccc;
+}
+
+.notification_info {
+    display: flex;
+    flex-direction: column;
+}
+
+.notification_message {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.notification_timestamp {
+    font-size: 14px;
+    color: #777;
+}
+
+.notification_actions {
+    display: flex;
+    align-items: center;
+}
+
+.notification_read {
+    font-size: 20px;
+    color: #2ecc71;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.notification_read:hover {
+    color: #27ae60;
+}
+
+.read_tooltip {
+    visibility: hidden;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 5px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 0%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-size: 12px;
+    width: auto;
+    white-space: nowrap;
+}
+
+.notification_read:hover .read_tooltip {
+    visibility: visible;
+    opacity: 1;
+}

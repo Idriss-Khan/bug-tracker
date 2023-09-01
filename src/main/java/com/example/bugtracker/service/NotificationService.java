@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NotificationService {
@@ -33,4 +34,13 @@ public class NotificationService {
         notificationRepository.save(notification);
     }
 
+    public void markNotificationAsRead(Integer notificationId) {
+        Optional<Notification> optionalNotification = notificationRepository.findById(notificationId);
+
+        if (optionalNotification.isPresent()) {
+            Notification notification = optionalNotification.get();
+            notification.setReadStatus(true);
+            notificationRepository.save(notification);
+        }
+    }
 }
