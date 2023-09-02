@@ -1,0 +1,28 @@
+<!-- Include the sidebar -->
+<div th:replace="~{admin/includes/sidebar.html}"></div>
+
+<!-- Notification Page -->
+<section class="notification_page">
+    <div class="notification_container">
+
+        <div th:each="notification : ${userNotifications}" class="notification">
+            <div class="notification_info">
+                <span class="notification_message" th:text="${notification.message}"></span>
+                <span class="notification_timestamp" th:text="${notification.formattedTimestamp}"></span>
+            </div>
+            <div class="notification_actions">
+                <form th:if="${!notification.readStatus}" th:action="@{/admin/profile/markRead/{notificationId}(notificationId=${notification.id})}" method="post" style="margin: 0; padding: 0; border: none;">
+                    <input type="hidden" name="_method" value="patch" />
+                    <button type="submit" class="bx bx-check notification_read" style="background: none; border: none; padding: 0;">
+                        <span class="read_tooltip">Mark as Read</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Include the footer -->
+<div th:replace="~{admin/includes/footer.html}"></div>
