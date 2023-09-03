@@ -60,19 +60,18 @@ public class BugService {
     }
 
     public void updateBug(Bug existingBug, Bug updatedBug) {
-
         User oldAssignedUser = existingBug.getAssignedUser();
         User newAssignedUser = updatedBug.getAssignedUser();
 
         boolean assignedUserChanged = !Objects.equals(oldAssignedUser, newAssignedUser);
 
         if (assignedUserChanged) {
-            if (oldAssignedUser != null && !Objects.equals(oldAssignedUser.getId(), newAssignedUser.getId())) {
+            if (oldAssignedUser != null && newAssignedUser != null && !Objects.equals(oldAssignedUser.getId(), newAssignedUser.getId())) {
                 String removedMessage = "You have been removed from working on bug: " + existingBug.getTitle();
                 notificationService.createNotification(oldAssignedUser, removedMessage);
             }
 
-            if (newAssignedUser != null && !Objects.equals(newAssignedUser.getId(), oldAssignedUser.getId())) {
+            if (newAssignedUser != null && (oldAssignedUser == null || !Objects.equals(newAssignedUser.getId(), oldAssignedUser.getId()))) {
                 String assignedMessage = "You have been assigned to work on bug: " + existingBug.getTitle();
                 notificationService.createNotification(newAssignedUser, assignedMessage);
             }
@@ -85,11 +84,16 @@ public class BugService {
         existingBug.setPriority(updatedBug.getPriority());
         existingBug.setStatus(updatedBug.getStatus());
 
-        User assignedUser = userService.get(updatedBug.getAssignedUser().getId());
-        existingBug.setAssignedUser(assignedUser);
+        if (newAssignedUser != null) {
+            User assignedUser = userService.get(newAssignedUser.getId());
+            existingBug.setAssignedUser(assignedUser);
+        } else {
+            existingBug.setAssignedUser(null); // Clear the assigned user if newAssignedUser is null
+        }
 
         bugRepository.save(existingBug);
     }
+
 
     private String saveImageLocally(MultipartFile image) {
         String fileName = StringUtils.cleanPath(image.getOriginalFilename());
