@@ -5,12 +5,33 @@
     <a th:href="@{/admin/project/create}" class="button-link">Add Project</a>
 </div>
 
+<div class="bug-filters">
+    <div class="bug-search">
+        <input type="text" id="project-search" placeholder="Search by Project">
+    </div>
+    <div class="bug-filter">
+        <select id="status-filter">
+            <option value="">All Status</option>
+            <option value="In-Progress">In-Progress</option>
+            <option value="Completed">Completed</option>
+        </select>
+    </div>
+    <div class="bug-filter">
+        <select id="priority-filter">
+            <option value="">All Priority</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+        </select>
+    </div>
+</div>
+
 
 <div class="bug-table">
     <div class="bug-table-headings">
         <div class="bug-heading">PROJECT</div>
-        <div class="bug-heading">PRIORITY</div>
         <div class="bug-heading">STATUS</div>
+        <div class="bug-heading">PRIORITY</div>
         <div class="bug-heading">STARTED</div>
         <div class="bug-heading">DUE</div>
         <div class="bug-heading">MANAGER</div>
@@ -18,11 +39,13 @@
     </div>
         <div class="bug-row" th:each="project : ${projects}">
             <div class="bug-cell" th:text="${project.name}"></div>
-            <div class="bug-cell" th:text="${project.priority}"></div>
-            <div class="bug-cell" th:text="${project.status}"></div>
-            <div class="bug-cell" th:text="${project.startDate}"></div>
-            <div class="bug-cell" th:text="${project.endDate}"></div>
-            <div class="bug-cell" th:text="${project.projectManager}"></div>
+            <div class="bug-cell status-tag status" style="margin-left: 0px" th:text="${project.status}"></div>
+            <div class="bug-cell priority-tag priority" style="margin-left: 0px" th:text="${project.priority}"></div>
+            <div class="bug-cell" th:text="${project.formattedStart}"></div>
+            <div class="bug-cell" th:text="${project.formattedEnd}"></div>
+            <div class="bug-cell">
+                <img class="profile-picture" th:src="@{|${project.projectManager.profilePicture}|}" th:alt="${project.projectManager}">
+            </div>
             <div class="bug-cell">
                 <a th:href="@{/admin/project/view/{id}(id=${project.id})}">
                     <i class='bx bx-show'></i>
@@ -42,7 +65,44 @@
         </div>
 </div>
 
+<script>
+    // Get the input, status filter, priority filter, and project rows
+    const projectSearchInput = document.getElementById("project-search");
+    const statusFilter = document.getElementById("status-filter");
+    const priorityFilter = document.getElementById("priority-filter");
+    const projectRows = document.querySelectorAll(".bug-row");
 
+    // Add event listeners to the search input and filters
+    projectSearchInput.addEventListener("input", filterProjects);
+    statusFilter.addEventListener("change", filterProjects);
+    priorityFilter.addEventListener("change", filterProjects);
+
+    // Function to filter projects based on search term, status, and priority filters
+    function filterProjects() {
+        const searchTerm = projectSearchInput.value.toLowerCase();
+        const selectedStatus = statusFilter.value.toLowerCase();
+        const selectedPriority = priorityFilter.value.toLowerCase();
+
+        projectRows.forEach((projectRow) => {
+            const projectNameCell = projectRow.querySelector(".bug-cell:nth-child(1)");
+            const statusCell = projectRow.querySelector(".bug-cell:nth-child(2)");
+            const priorityCell = projectRow.querySelector(".bug-cell:nth-child(3)");
+            const projectName = projectNameCell.textContent.toLowerCase();
+            const status = statusCell.textContent.toLowerCase();
+            const priority = priorityCell.textContent.toLowerCase();
+
+            const nameMatch = projectName.includes(searchTerm);
+            const statusMatch = selectedStatus === "" || status.includes(selectedStatus);
+            const priorityMatch = selectedPriority === "" || priority.includes(selectedPriority);
+
+            if (nameMatch && statusMatch && priorityMatch) {
+                projectRow.style.display = "flex"; // Show matching rows
+            } else {
+                projectRow.style.display = "none"; // Hide non-matching rows
+            }
+        });
+    }
+</script>
 
 <!-- Include the footer -->
 <div th:replace="~{admin/includes/footer.html}"></div>

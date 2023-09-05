@@ -29,8 +29,8 @@
     <div class="bug-table">
         <div class="bug-table-headings">
             <div class="bug-heading">BUG</div>
-            <div class="bug-heading">PRIORITY</div>
             <div class="bug-heading">STATUS</div>
+            <div class="bug-heading">PRIORITY</div>
             <div class="bug-heading">CREATED</div>
             <div class="bug-heading">DUE</div>
             <div class="bug-heading">REPORTER</div>
@@ -48,13 +48,14 @@
             <div class="bug-table-content">
                 <div th:each="bug : ${project.bugs}" th:if="${bug.assignedUser == currentUser}" class="bug-row">
                     <div class="bug-cell" th:text="${bug.title}"></div>
-                    <div class="bug-cell" th:text="${bug.priority}"></div>
-                    <div class="bug-cell" th:text="${bug.status}"></div>
-                    <div class="bug-cell" th:text="${bug.created}"></div>
-                    <div class="bug-cell" th:text="${bug.due}"></div>
-                    <div class="bug-cell" th:text="${bug.postedBy}"></div>
+                    <div class="bug-cell status-tag status" th:text="${bug.status}"></div>
+                    <div class="bug-cell priority-tag priority" th:text="${bug.priority}"></div>
+                    <div class="bug-cell" th:text="${bug.formattedCreated}"></div>
+                    <div class="bug-cell" th:text="${bug.formattedDue}"></div>
                     <div class="bug-cell">
-
+                        <img class="profile-picture" th:src="@{|${bug.postedBy.profilePicture}|}" th:alt="${bug.postedBy}">
+                    </div>
+                    <div class="bug-cell">
                         <a th:href="@{/admin/bug/view/{id}(id=${bug.id})}">
                             <i class='bx bx-show'></i>
                         </a>
@@ -62,12 +63,12 @@
                         <a th:href="@{/admin/bug/edit/{id}(id=${bug.id})}">
                             <i class='bx bx-edit'></i>
                         </a>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 
 <!-- Include the footer -->
 <div th:replace="~{admin/includes/footer.html}"></div>

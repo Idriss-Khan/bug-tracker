@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -49,6 +50,14 @@ public class Project {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     @OrderBy("id ASC")
     private Set<Bug> bugs;
+
+    public String getFormattedStart() {
+        return startDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
+    public String getFormattedEnd() {
+        return endDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
 
     public void addAssociatedUser(User user) {
         if (associatedUsers == null) {

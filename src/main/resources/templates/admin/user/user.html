@@ -1,6 +1,18 @@
 <!-- Include the sidebar -->
 <div th:replace="~{admin/includes/sidebar.html}"></div>
 
+    <div class="search-container">
+        <div class="search-bar">
+            <input type="text" id="user-search" placeholder="Search by Name">
+            <select id="role-filter">
+                <option value="">All Roles</option>
+                <option value="Admin">Admin</option>
+                <option value="Project Manager">Project Manager</option>
+                <option value="Developer">Developer</option>
+                <option value="User">User</option>
+            </select>
+        </div>
+    </div>
 
     <div class="custom-table">
         <div class="custom-table-headings">
@@ -16,7 +28,9 @@
             <div class="custom-cell" th:text="${user.id}"></div>
             <div class="custom-cell" th:text="${user.firstName}"></div>
             <div class="custom-cell" th:text="${user.lastName}"></div>
-            <div class="custom-cell" th:text="${user.profilePicture}"></div>
+            <div class="custom-cell">
+                <img class="profile-picture" th:src="@{|${user.profilePicture}|}">
+            </div>
             <div class="custom-cell" th:text="${user.email}"></div>
             <div class="custom-cell" th:text="${user.roles}"></div>
             <div class="custom-cell">
@@ -24,7 +38,6 @@
             </div>
         </div>
     </div>
-
 
 
 <!-- Include the footer -->

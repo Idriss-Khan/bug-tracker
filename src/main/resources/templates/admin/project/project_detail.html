@@ -10,8 +10,8 @@
     </div>
     <div class="project-description" th:text="${project.description}"></div>
     <div class="project-dates">
-        <div th:text="'Start Date: ' + ${project.startDate}"></div>
-        <div th:text="'End Date: ' + ${project.endDate}"></div>
+        <div th:text="'Start Date: ' + ${project.formattedStart}"></div>
+        <div th:text="'End Date: ' + ${project.formattedEnd}"></div>
     </div>
     <div class="project-status" th:text="'Status: ' + ${project.status}"></div>
 </div>
@@ -53,10 +53,10 @@
         </div>
         <div class="bug-row" th:each="bug : ${project.bugs}">
             <div class="bug-cell" th:text="${bug.title}"></div>
-            <div class="bug-cell" th:text="${bug.status}"></div>
-            <div class="bug-cell" th:text="${bug.priority}"></div>
-            <div class="bug-cell" th:text="${bug.created}"></div>
-            <div class="bug-cell" th:text="${bug.due}"></div>
+            <div class="bug-cell status-tag status" style="margin-left: 0px" th:text="${bug.status}"></div>
+            <div class="bug-cell priority-tag priority" style="margin-left: 0px" th:text="${bug.priority}"></div>
+            <div class="bug-cell" th:text="${bug.formattedCreated}"></div>
+            <div class="bug-cell" th:text="${bug.formattedDue}"></div>
             <div class="bug-cell" th:text="${bug.postedBy}"></div>
             <div class="bug-cell">null</div>
             <div class="bug-cell">

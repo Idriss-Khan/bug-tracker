@@ -360,6 +360,13 @@ body::-webkit-scrollbar {
     align-items: center; /* Center the child elements vertically within the bug-cell */
 }
 
+.profile-picture {
+    width: 50px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 /* Style the <a> tags */
 .bug-cell a {
     text-decoration: none;
@@ -424,6 +431,113 @@ body::-webkit-scrollbar {
     overflow: hidden; /* Hide any overflowing text */
     text-overflow: ellipsis; /* Show ellipsis (...) for truncated text */
 }
+
+.search-container {
+    margin-top: 20px;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+
+#user-search,
+#role-filter {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+/* CSS for the bug-filters container */
+.bug-filters {
+    margin-top: 20px;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+/* CSS for the search bar and filter elements within the bug-filters container */
+.bug-search {
+    display: flex;
+    align-items: center;
+}
+
+/* Style the input and select elements in the bug-filters */
+#project-search,
+#status-filter,
+#priority-filter {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+/* Status and Priority TAGS */
+
+.status-tag {
+    border-radius: 15px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 4px;
+}
+
+.status-new {
+    background-color: #a358df;
+    color: #fef8f0;
+}
+
+.status-in-progress {
+    background-color: #fdab3d;
+    color: #fef8f0;
+}
+
+.status-resolved {
+    background-color: #00cc6f;
+    color: #fef8f0;
+}
+
+.status-closed {
+    background-color: #d83a52;
+    color: #fef8f0;
+}
+
+/* Priority classes */
+.priority-tag {
+    border-radius: 15px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 4px;
+}
+
+.priority-low {
+    background-color: #5bc1f5;
+    color: #fef8f0;
+}
+
+.priority-medium {
+    background-color: #569ec3;
+    color: #fef8f0;
+}
+
+.priority-high {
+    background-color: #225091;
+    color: #fef8f0;
+}
+
+
 /* PROFILE SECTION STYLES */
 
 /* PAGE CONTAINER */

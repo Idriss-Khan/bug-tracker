@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +51,14 @@ public class Bug {
 
     @OneToMany(mappedBy = "bug", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
+
+    public String getFormattedCreated() {
+        return created.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
+
+    public String getFormattedDue() {
+        return due.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+    }
 
     public List<Comment> getComments() {
         return comments;

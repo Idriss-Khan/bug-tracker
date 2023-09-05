@@ -78,7 +78,7 @@
     <div class="comments">
         <div th:each="comment : ${comments}" class="comment">
             <div class="user-profile">
-                <img class="profile-image" th:src="@{|${comment.user.profilePicture}|}" alt="Profile Photo">
+                <img class="profile-image" th:src="@{|${comment.user.profilePicture}|}">
                 <div class="user-info">
                     <div class="user-name" th:text="${comment.user}"></div>
                     <div class="post-date" th:text="'Submitted on ' + ${#dates.format(comment.createdAt, 'dd/MM/yyyy')} + ' at ' + ${#dates.format(comment.createdAt, 'hh:mm a')}"></div>
