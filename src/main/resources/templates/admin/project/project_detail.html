@@ -3,35 +3,55 @@
 
 <!-- Project Details Card -->
 <div class="card project-detail-card">
-    <!-- Add project details here -->
     <div class="title">
         <i class="bx bx-folder"></i>
-        <span th:text="${pageTitle}"></span>
+        <span class="title-text" th:text="${pageTitle}"></span>
     </div>
-    <div class="project-description" th:text="${project.description}"></div>
-    <div class="project-dates">
-        <div th:text="'Start Date: ' + ${project.formattedStart}"></div>
-        <div th:text="'End Date: ' + ${project.formattedEnd}"></div>
+    <div class="project-details">
+        <div class="project-description" th:text="${project.description}"></div>
+        <div class="project-info">
+            <div class="project-dates">
+                <div th:text="'Start Date: ' + ${project.formattedStart}"></div>
+                <div th:text="'End Date: ' + ${project.formattedEnd}"></div>
+            </div>
+            <div class="project-status">
+                <span>Status:</span>
+                <span class="status-badge" th:text="${project.status}" th:classappend="${'status-' + project.status.toLowerCase()}"></span>
+            </div>
+
+            <div class="project-priority">
+                <span>Priority:</span>
+                <span class="priority-badge" th:text="${project.priority}" th:classappend="${'priority-' + project.priority.toLowerCase()}"></span>
+            </div>
+
+        </div>
     </div>
-    <div class="project-status" th:text="'Status: ' + ${project.status}"></div>
 </div>
 
 <!-- Project Manager and Associated Developers Card -->
 <div class="card associated-developers-card">
-    <!-- Add project manager and associated developers here -->
     <div class="title">
         <i class="bx bx-user"></i>
         Project Manager
     </div>
-    <div class="manager-name" th:text="${project.projectManager.toString()}"></div>
+    <div class="manager-details">
+        <div class="manager-name" th:text="${project.projectManager}"></div>
+        <img class="profile-picture" th:src="@{|${project.projectManager.profilePicture}|}" th:alt="${project.projectManager}">
+    </div>
     <div class="title">
         <i class="bx bx-group"></i>
         Associated Developers
     </div>
     <ul class="developer-list">
-        <li th:each="developer : ${project.getAssociatedUsers()}" th:text="${developer.toString()}"></li>
+        <li th:each="developer : ${project.getAssociatedUsers()}">
+            <div class="developer-details">
+                <div class="developer-name" th:text="${developer.toString()}"></div>
+                <img class="profile-picture" th:src="@{|${developer.profilePicture}|}" th:alt="${developer}">
+            </div>
+        </li>
     </ul>
 </div>
+
 
 <!-- Bugs Table Card -->
 <div class="card bugs-table-card">
@@ -57,8 +77,15 @@
             <div class="bug-cell priority-tag priority" style="margin-left: 0px" th:text="${bug.priority}"></div>
             <div class="bug-cell" th:text="${bug.formattedCreated}"></div>
             <div class="bug-cell" th:text="${bug.formattedDue}"></div>
-            <div class="bug-cell" th:text="${bug.postedBy}"></div>
-            <div class="bug-cell">null</div>
+
+            <div class="bug-cell">
+                <img class="profile-picture" th:src="@{|${bug.postedBy.profilePicture}|}" th:alt="${bug.postedBy}">
+            </div>
+
+            <div class="bug-cell">
+                <img class="profile-picture" th:src="@{|${bug.assignedUser.profilePicture}|}" th:alt="${bug.assignedUser}">
+            </div>
+
             <div class="bug-cell">
                 <a th:href="@{/admin/bug/view/{id}(id=${bug.id})}">
                     <i class='bx bx-show'></i>

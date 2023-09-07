@@ -6,14 +6,28 @@
         <i class="bx bx-folder"></i>
         <span th:text="${pageTitle}"></span>
     </div>
-    <div class="project-status" th:text="'Status: ' + ${bug.status}"></div>
-    <div class="project-status" th:text="'Priority: ' + ${bug.priority}"></div>
+
     <div class="project-description" th:text="'Project: ' + ${bug.project.name}"></div>
+
     <div class="project-dates">
-        <div th:text="'Created: ' + ${bug.created}"></div>
-        <div th:text="'Due: ' + ${bug.due}"></div>
+        <div th:text="'Posted: ' + ${bug.formattedCreated}"></div>
+        <div th:text="'Due: ' + ${bug.formattedDue}"></div>
     </div>
-    <div class="project-description" th:text="'Posted by: ' + ${bug.postedBy}"></div>
+
+    <div class="project-status">
+        <span>Status:</span>
+        <span class="status-badge" th:text="${bug.status}" th:classappend="${'status-' + bug.status.toLowerCase()}"></span>
+    </div>
+
+    <div class="project-priority">
+        <span>Priority:</span>
+        <span class="priority-badge" th:text="${bug.priority}" th:classappend="${'priority-' + bug.priority.toLowerCase()}"></span>
+    </div>
+
+    <div class="manager-details">
+        <div class="manager-name" th:text="'Posted by: ' + ${bug.postedBy}"></div>
+        <img class="profile-picture" th:src="@{|${bug.postedBy.profilePicture}|}" th:alt="${bug.postedBy}">
+    </div>
 </div>
 
 <!-- Project Manager and Associated Developers Card -->
@@ -23,18 +37,19 @@
         <i class="bx bx-user"></i>
         Project Manager
     </div>
-    <div class="manager-name" th:text="${bug.project.projectManager.toString()}"></div>
+    <div class="manager-details">
+        <div class="manager-name" th:text="${bug.project.projectManager}"></div>
+        <img class="profile-picture" th:src="@{|${bug.project.projectManager.profilePicture}|}" th:alt="${bug.project.projectManager}">
+    </div>
     <div class="title">
         <i class="bx bx-group"></i>
-        Associated Developers
+        Assigned Developer
     </div>
-    <ul class="developer-list">
-        <li >
-            test
-        </li>
-    </ul>
+    <div class="manager-details">
+        <div class="manager-name" th:text="${bug.assignedUser}"></div>
+        <img class="profile-picture" th:src="@{|${bug.assignedUser.profilePicture}|}" th:alt="${bug.assignedUser}">
+    </div>
 </div>
-
 
 <div class="card">
     <div class="title">
@@ -88,7 +103,6 @@
     </div>
     </div>
 </div>
-
 
 <!-- Include the footer -->
 <div th:replace="~{admin/includes/footer.html}"></div>

@@ -507,10 +507,16 @@ body::-webkit-scrollbar {
     color: #fef8f0;
 }
 
+.status-completed {
+    background-color: #00cc6f;
+    color: #fef8f0;
+}
+
 .status-closed {
     background-color: #d83a52;
     color: #fef8f0;
 }
+
 
 /* Priority classes */
 .priority-tag {
@@ -741,20 +747,60 @@ body::-webkit-scrollbar {
     margin-bottom: 10px;
 }
 
-/* Project Details Card Styles */
-.project-detail-card .project-status {
-    font-weight: bold;
-    color: #008000;
+.title i {
+    font-size: 28px;
+    margin-right: 10px;
+    color: #014fa2;
 }
+
+.project-description {
+    margin-bottom: 15px;
+}
+
+.project-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.project-dates, .project-status, .project-priority {
+    margin-bottom: 10px;
+}
+
+.project-status,
+.project-priority {
+    display: flex;
+    align-items: center;
+    border-radius: 50px; /* Adjust the radius to control the roundness */
+}
+
+.status-badge,
+.priority-badge {
+    margin-left: 10px; /* Adjust spacing between text and tag */
+    padding: 5px 10px; /* Adjust padding as needed */
+    border-radius: 50px; /* Match the parent's border-radius for a rounded tag */
+    color: #fef8f0;
+}
+
+/* Project Details Card Styles */
 
 /* Associated Developers Card Styles */
 .associated-developers-card .manager-name {
     padding-left: 20px;
     padding-bottom: 5px;
+    margin-right: 5px;
 }
 .associated-developers-card  .developer-list {
     list-style: none;
     padding-left: 20px;
+}
+.associated-developers-card .developer-name {
+    margin-right: 5px;
+}
+
+.manager-details, .developer-details {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    margin-bottom: 5px;
 }
 
 /* Bug screenshots */
