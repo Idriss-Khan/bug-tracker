@@ -11,7 +11,8 @@
 
     <div class="project-dates">
         <div th:text="'Posted: ' + ${bug.formattedCreated}"></div>
-        <div th:text="'Due: ' + ${bug.formattedDue}"></div>
+        <div th:if="${bug.due == null}">Due: No due date</div>
+        <div th:unless="${bug.due == null}" th:text="'Due: ' + ${bug.formattedDue}"></div>
     </div>
 
     <div class="project-status">
@@ -26,7 +27,7 @@
 
     <div class="manager-details">
         <div class="manager-name" th:text="'Posted by: ' + ${bug.postedBy}"></div>
-        <img class="profile-picture" th:src="@{|${bug.postedBy.profilePicture}|}" th:alt="${bug.postedBy}">
+        <img class="profile-picture" style="margin-left: 5px" th:src="@{|${bug.postedBy.profilePicture}|}" th:alt="${bug.postedBy}">
     </div>
 </div>
 
@@ -46,8 +47,13 @@
         Assigned Developer
     </div>
     <div class="manager-details">
-        <div class="manager-name" th:text="${bug.assignedUser}"></div>
-        <img class="profile-picture" th:src="@{|${bug.assignedUser.profilePicture}|}" th:alt="${bug.assignedUser}">
+        <div class="manager-name">
+            <th:block th:if="${bug.assignedUser == null}">Unassigned</th:block>
+            <th:block th:unless="${bug.assignedUser == null}" th:text="${bug.assignedUser}"></th:block>
+        </div>
+        <th:block th:unless="${bug.assignedUser == null}">
+            <img class="profile-picture" th:src="@{|${bug.assignedUser.profilePicture}|}" th:alt="${bug.assignedUser}">
+        </th:block>
     </div>
 </div>
 

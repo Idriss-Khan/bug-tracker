@@ -76,14 +76,22 @@
             <div class="bug-cell status-tag status" style="margin-left: 0px" th:text="${bug.status}"></div>
             <div class="bug-cell priority-tag priority" style="margin-left: 0px" th:text="${bug.priority}"></div>
             <div class="bug-cell" th:text="${bug.formattedCreated}"></div>
-            <div class="bug-cell" th:text="${bug.formattedDue}"></div>
+            <div class="bug-cell">
+                <!-- Check if bug.due is null, if true, display "No due date," else display the formatted due date -->
+                <th:block th:if="${bug.due == null}">No due date</th:block>
+                <th:block th:unless="${bug.due == null}" th:text="${bug.formattedDue}"></th:block>
+            </div>
 
             <div class="bug-cell">
                 <img class="profile-picture" th:src="@{|${bug.postedBy.profilePicture}|}" th:alt="${bug.postedBy}">
             </div>
 
             <div class="bug-cell">
-                <img class="profile-picture" th:src="@{|${bug.assignedUser.profilePicture}|}" th:alt="${bug.assignedUser}">
+                <!-- Check if bug.assignedUser is null, if true, display "Unassigned," else display the profile picture -->
+                <th:block th:if="${bug.assignedUser == null}">Unassigned</th:block>
+                <th:block th:unless="${bug.assignedUser == null}">
+                    <img class="profile-picture" th:src="@{|${bug.assignedUser.profilePicture}|}" th:alt="${bug.assignedUser}">
+                </th:block>
             </div>
 
             <div class="bug-cell">
