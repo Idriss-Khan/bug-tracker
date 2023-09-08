@@ -65,7 +65,10 @@ public class AdminUserController {
         Map<Project, List<Bug>> projectBugsMap = new HashMap<>();
         for (Project project : projects) {
             List<Bug> userBugs = project.getBugs().stream()
-                    .filter(bug -> bug.getAssignedUser().equals(user))
+                    .filter(bug -> {
+                        User assignedUser = bug.getAssignedUser();
+                        return assignedUser != null && assignedUser.equals(user);
+                    })
                     .collect(Collectors.toList());
             projectBugsMap.put(project, userBugs);
         }

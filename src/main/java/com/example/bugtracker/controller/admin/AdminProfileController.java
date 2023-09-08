@@ -37,7 +37,6 @@ public class AdminProfileController {
         User currentUser = userService.getUserByEmail(email);
         mav.addObject("user", currentUser);
 
-
         // Passing in projects and tasks
         Set<Project> projects = projectService.getProjectsForUser(currentUser);
         mav.addObject("userProjects", projects);
@@ -45,7 +44,10 @@ public class AdminProfileController {
         Map<Project, List<Bug>> projectBugsMap = new HashMap<>();
         for (Project project : projects) {
             List<Bug> userBugs = project.getBugs().stream()
-                    .filter(bug -> bug.getAssignedUser().equals(currentUser))
+                    .filter(bug -> {
+                        User assignedUser = bug.getAssignedUser();
+                        return assignedUser != null && assignedUser.equals(currentUser);
+                    })
                     .collect(Collectors.toList());
             projectBugsMap.put(project, userBugs);
         }
@@ -56,6 +58,7 @@ public class AdminProfileController {
 
         return mav;
     }
+
 
     @GetMapping("/notifications")
     public ModelAndView notificationPage(Principal principal) {
