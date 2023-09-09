@@ -2,6 +2,8 @@ package com.example.bugtracker.model;
 
 import jakarta.persistence.*;
 
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +36,14 @@ public class Comment {
     @OneToMany(mappedBy = "parentComment", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> replies = new ArrayList<>();
 
+    public String formatCreatedAt() {
+        if (createdAt != null) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            return dateFormat.format(createdAt);
+        } else {
+            return null;
+        }
+    }
     public Integer getId() {
         return id;
     }

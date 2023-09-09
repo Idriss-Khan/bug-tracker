@@ -2,6 +2,7 @@ package com.example.bugtracker.service;
 
 import com.example.bugtracker.model.Bug;
 import com.example.bugtracker.model.Comment;
+import com.example.bugtracker.model.User;
 import com.example.bugtracker.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,6 @@ import java.util.Optional;
 @Service
 public class CommentService {
     private final CommentRepository commentRepository;
-
 
     @Autowired
     public CommentService(CommentRepository commentRepository) {
@@ -32,5 +32,7 @@ public class CommentService {
         return optionalComment.orElse(null);
     }
 
-
+    public List<Comment> getCommentsByUser(User user) {
+        return commentRepository.findByUserOrderByCreatedAtDesc(user);
+    }
 }

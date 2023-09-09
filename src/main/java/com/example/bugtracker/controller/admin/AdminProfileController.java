@@ -1,6 +1,7 @@
 package com.example.bugtracker.controller.admin;
 
 import com.example.bugtracker.model.*;
+import com.example.bugtracker.service.CommentService;
 import com.example.bugtracker.service.NotificationService;
 import com.example.bugtracker.service.ProjectService;
 import com.example.bugtracker.service.UserService;
@@ -25,6 +26,8 @@ public class AdminProfileController {
     private ProjectService projectService;
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    private CommentService commentService;
 
 
     // returns user profile page
@@ -52,6 +55,10 @@ public class AdminProfileController {
             projectBugsMap.put(project, userBugs);
         }
         mav.addObject("projectBugsMap", projectBugsMap);
+
+        // Fetch comments made by the user
+        List<Comment> userComments = commentService.getCommentsByUser(currentUser);
+        mav.addObject("userComments", userComments);
 
         int notificationCount = notificationService.countUnreadNotifications(currentUser);
         mav.addObject("notificationCount", notificationCount);

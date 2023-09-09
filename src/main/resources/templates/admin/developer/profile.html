@@ -59,8 +59,8 @@
       <tr>
         <th>Project Name</th>
         <th>Task Title</th>
-        <th>Priority</th>
         <th>Status</th>
+        <th>Priority</th>
         <th>Date Created</th>
         <th>Date Due</th>
       </tr>
@@ -73,10 +73,13 @@
         <th:block th:each="bug : ${entry.value}">
           <tr>
             <td th:text="${bug.title}"></td>
-            <td th:text="${bug.priority}"></td>
-            <td th:text="${bug.status}"></td>
-            <td th:text="${bug.created}"></td>
-            <td th:text="${bug.due}"></td>
+            <td class="" th:text="${bug.status}" th:classappend="${'status-' + bug.status.toLowerCase()}"></td>
+            <td class="" th:text="${bug.priority}" th:classappend="${'priority-' + bug.priority.toLowerCase()}"></td>
+            <td th:text="${bug.formattedCreated}"></td>
+            <td>
+              <th:block th:if="${bug.due == null}">No due date</th:block>
+              <th:block th:unless="${bug.due == null}" th:text="${bug.formattedDue}"></th:block>
+            </td>
           </tr>
         </th:block>
       </th:block>
@@ -86,6 +89,26 @@
 
 </div>
 
+<div class="card bugs-table-card" style="background-color: #f9f9f9;">
+  <div class="title">
+    <i class="bx bx-comment"></i>
+    Comments
+  </div>
+  <div class="bug-table">
+
+    <div class="bug-table-headings">
+      <div class="bug-heading">BUG</div>
+      <div class="bug-heading">COMMENT DATE</div>
+      <div class="bug-heading">Comment</div>
+    </div>
+
+    <div th:each="comment : ${userComments}" class="bug-row">
+      <div class="bug-cell" th:text="${comment.bug.title}"></div>
+      <div class="bug-cell" th:text="${comment.formatCreatedAt()}"></div>
+      <div class="bug-cell" th:text="${comment.content}"></div>
+    </div>
+  </div>
+</div>
 
 
 <!-- Include the footer -->

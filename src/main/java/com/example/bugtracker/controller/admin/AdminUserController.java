@@ -1,9 +1,7 @@
 package com.example.bugtracker.controller.admin;
 
-import com.example.bugtracker.model.Bug;
-import com.example.bugtracker.model.Project;
-import com.example.bugtracker.model.Role;
-import com.example.bugtracker.model.User;
+import com.example.bugtracker.model.*;
+import com.example.bugtracker.service.CommentService;
 import com.example.bugtracker.service.NotificationService;
 import com.example.bugtracker.service.ProjectService;
 import com.example.bugtracker.service.UserService;
@@ -32,6 +30,8 @@ public class AdminUserController {
     private ProjectService projectService;
     @Autowired
     private NotificationService notificationService;
+    @Autowired
+    private CommentService commentService;
 
     @GetMapping
     public ModelAndView getAdminUsersPage(Principal principal) {
@@ -76,6 +76,11 @@ public class AdminUserController {
 
         String email = principal.getName();
         User currentUser = userService.getUserByEmail(email);
+
+        // Fetch comments made by the user
+        List<Comment> userComments = commentService.getCommentsByUser(currentUser);
+        mav.addObject("userComments", userComments);
+
         int notificationCount = notificationService.countUnreadNotifications(currentUser);
         mav.addObject("notificationCount", notificationCount);
 
