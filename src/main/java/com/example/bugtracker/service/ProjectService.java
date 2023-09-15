@@ -8,10 +8,7 @@ import com.example.bugtracker.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class ProjectService {
@@ -116,6 +113,24 @@ public class ProjectService {
     public Set<Project> getProjectsForUser(User user) {
         // Retrieve projects where the user is the manager or an associated user
         return projectRepository.findByProjectManagerOrAssociatedUsers(user, user);
+    }
+
+    // Graphs
+    public long countTotalProjects() {
+        return projectRepository.count();
+    }
+
+    public long countActiveProjects() {
+        return projectRepository.countByStatus("In-Progress");
+    }
+
+    public long countClosedProjects() {
+        return projectRepository.countByStatus("Completed");
+    }
+
+
+    public long countProjectsBySeverity(String severity) {
+        return projectRepository.countProjectsBySeverity(severity);
     }
 
 }

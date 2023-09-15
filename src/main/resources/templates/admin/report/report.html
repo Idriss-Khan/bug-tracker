@@ -1,0 +1,332 @@
+<div th:replace="~{admin/includes/sidebar.html}"></div>
+
+<!-- Cards Section -->
+<div class="report-cards-section">
+    <!-- Top Row with FOUR small rectangular cards -->
+    <div class="report-card small-card">
+        <div class="report-count-content">
+            <div class="report-number" th:text="${totalProjects}"></div>
+            <div class="report-count-title">Total Projects</div>
+        </div>
+    </div>
+    <div class="report-card small-card">
+        <div class="report-count-content">
+            <div class="report-number" th:text="${activeProjects}"></div>
+            <div class="report-count-title">Active Projects</div>
+        </div>
+    </div>
+    <div class="report-card small-card">
+        <div class="report-count-content">
+            <div class="report-number" th:text="${closedProjects}"></div>
+            <div class="report-count-title">Closed Projects</div>
+        </div>
+    </div>
+    <div class="report-card small-card">
+        <div class="report-count-content">
+            <div class="report-number" th:text="${totalBugs}"></div>
+            <div class="report-count-title">Total Bugs</div>
+        </div>
+    </div>
+
+    <!-- Second Row with cards of different widths but the same height -->
+    <div class="report-card medium-card">
+        <div class="report-title">Project Severity</div>
+        <div class="chart-container">
+            <canvas id="projectSeverityChart"></canvas>
+        </div>
+    </div>
+
+    <div class="report-card medium-card">
+        <div class="report-title">Bug Severity</div>
+        <div class="chart-container">
+            <canvas id="BugSeverityChart"></canvas>
+        </div>
+    </div>
+
+    <div class="report-card medium-card">
+        <div class="report-title">Bug Status</div>
+        <div class="chart-container">
+            <canvas id="BugStatusChart"></canvas>
+        </div>
+    </div>
+
+    <div class="report-card medium-card">
+        <div class="report-content">
+
+            <div class="report-title">Bugs Reported</div>
+            <div class="report-count-content">
+                <div class="report-number" th:text="${bugsCreatedThisMonth}"></div>
+                <div class="report-count-title">This Month</div>
+            </div>
+
+            <div class="report-count-content">
+                <div class="report-number">
+                    <span th:text="${(bugsCreatedLastMonth > 0) ? ((bugsCreatedThisMonth - bugsCreatedLastMonth) / bugsCreatedLastMonth * 100) : ((bugsCreatedThisMonth > 0) ? 100 : 0)}"
+                          th:class="${(bugsCreatedThisMonth > bugsCreatedLastMonth) ? 'negative-change' : ((bugsCreatedThisMonth < bugsCreatedLastMonth) ? 'positive-change' : '')}">
+                    </span>
+                    <span th:class="${(bugsCreatedThisMonth > bugsCreatedLastMonth) ? 'negative-change' : ((bugsCreatedThisMonth < bugsCreatedLastMonth) ? 'positive-change' : '')}" style="margin-left: -8px;">%</span>
+                </div>
+
+                <div class="report-count-title">Change</div>
+            </div>
+
+            <div class="report-count-content">
+                <div class="report-number" th:text="${bugsCreatedLastMonth}"></div>
+                <div class="report-count-title">Last Month</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Third Row with cards of same widths and height -->
+    <div class="report-card large-card">
+        <div class="report-title">Bugs Reported Over Time</div>
+        <div class="chart-container">
+            <canvas id="bugReportChart"></canvas>
+        </div>
+    </div>
+
+    <div class="report-card large-card">
+        <div class="report-title">Unresolved Bugs By Priority And Project</div>
+        <div class="chart-container">
+            <canvas id="stackedBarChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- GRAPHS CHART.JS -->
+
+<!-- Project priority -->
+<script th:inline="javascript">
+    var highSeverity = [[${highSeverityProjects}]];
+    var mediumSeverity = [[${mediumSeverityProjects}]];
+    var lowSeverity = [[${lowSeverityProjects}]];
+
+    var ctx = document.getElementById('projectSeverityChart').getContext('2d');
+    var projectSeverityChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['High', 'Medium', 'Low'],
+            datasets: [{
+                data: [highSeverity, mediumSeverity, lowSeverity],
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 205, 86)',
+                    'rgb(54, 162, 235)'
+                ],
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            var data = context.dataset.data;
+                            var total = data.reduce(function (accumulator, currentValue) {
+                                return accumulator + currentValue;
+                            });
+                            var currentValue = data[context.dataIndex];
+                            var percentage = ((currentValue / total) * 100).toFixed(2);
+                            return '(' + currentValue + ')(' + percentage + '%)';
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+<!-- Bug priority -->
+<script th:inline="javascript">
+    var highSeverity = [[${highSeverityBugs}]];
+    var mediumSeverity = [[${mediumSeverityBugs}]];
+    var lowSeverity = [[${lowSeverityBugs}]];
+
+    var ctx = document.getElementById('BugSeverityChart').getContext('2d');
+    var projectSeverityChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['High', 'Medium', 'Low'],
+            datasets: [{
+                data: [highSeverity, mediumSeverity, lowSeverity],
+                backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(255, 205, 86)',
+                    'rgb(54, 162, 235)'
+                ],
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            var data = context.dataset.data;
+                            var total = data.reduce(function (accumulator, currentValue) {
+                                return accumulator + currentValue;
+                            });
+                            var currentValue = data[context.dataIndex];
+                            var percentage = ((currentValue / total) * 100).toFixed(2);
+                            return '(' + currentValue + ')(' + percentage + '%)';
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+<!-- Bug status -->
+<script th:inline="javascript">
+    var newStatus = [[${newStatusBugs}]];
+    var inProgressStatus = [[${inProgressStatusBugs}]];
+    var resolvedStatus = [[${resolvedStatusBugs}]];
+    var closedStatus = [[${closedStatusBugs}]];
+
+    var ctx = document.getElementById('BugStatusChart').getContext('2d');
+    var projectSeverityChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['New', 'In-Progress', 'Resolved', 'Closed'],
+            datasets: [{
+                data: [newStatus, inProgressStatus, resolvedStatus, closedStatus],
+                backgroundColor: [
+                    '#a358df',
+                    '#fdab3d',
+                    '#00cc6f',
+                    '#d83a52'
+                ],
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right'
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            var data = context.dataset.data;
+                            var total = data.reduce(function (accumulator, currentValue) {
+                                return accumulator + currentValue;
+                            });
+                            var currentValue = data[context.dataIndex];
+                            var percentage = ((currentValue / total) * 100).toFixed(2);
+                            return '(' + currentValue + ')(' + percentage + '%)';
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+<!-- Bugs over time -->
+<script th:inline="javascript">
+    var bugCounts = /*[[${bugCounts}]]*/ {};
+
+    // Convert the bugCounts map to arrays for Chart.js
+    var dates = Object.keys(bugCounts).map(function(date) {
+        return new Date(date);
+    });
+    var counts = Object.values(bugCounts);
+
+    var ctx = document.getElementById('bugReportChart').getContext('2d');
+
+    var chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates,
+            datasets: [{
+                label: 'Bugs Created Over Time',
+                data: counts,
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                fill: false,
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'time',
+                    time: {
+                        unit: 'day'
+                    },
+                    title: {
+                        display: true,
+                        text: 'Date'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Number of Bugs'
+                    }
+                }
+            },
+            animation: {
+                tension: {
+                    duration: 1000,
+                    easing: 'linear',
+                    from: 1,
+                    to: 0.1,
+                }
+            }
+        }
+    });
+</script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var bugData = /*[[${bugData}]]*/ [];
+
+    var ctx = document.getElementById('stackedBarChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: bugData.map(data => data.project),
+            datasets: [
+                {
+                    label: 'High Priority',
+                    data: bugData.map(data => data.High || 0),
+                    backgroundColor: 'rgba(210,21,61,0.7)'
+                },
+                {
+                    label: 'Medium Priority',
+                    data: bugData.map(data => data.Medium || 0),
+                    backgroundColor: 'rgba(231,169,22,0.7)'
+                },
+                {
+                    label: 'Low Priority',
+                    data: bugData.map(data => data.Low || 0),
+                    backgroundColor: 'rgba(19,208,208,0.7)'
+                }
+            ]
+        },
+        options: {
+            scales: {
+                x: {
+                    stacked: true
+                },
+                y: {
+                    stacked: true
+                }
+            }
+        }
+    });
+    /*]]>*/
+</script>
+
+<div th:replace="~{admin/includes/footer.html}"></div>

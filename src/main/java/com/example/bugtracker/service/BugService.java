@@ -6,6 +6,7 @@ import com.example.bugtracker.model.Project;
 import com.example.bugtracker.model.User;
 import com.example.bugtracker.repository.BugImageRepository;
 import com.example.bugtracker.repository.BugRepository;
+import com.example.bugtracker.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -18,10 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class BugService {
@@ -94,7 +92,6 @@ public class BugService {
         bugRepository.save(existingBug);
     }
 
-
     private String saveImageLocally(MultipartFile image) {
         String fileName = StringUtils.cleanPath(image.getOriginalFilename());
         String uploadDir = "src/main/resources/static/images"; // upload directory
@@ -153,5 +150,63 @@ public class BugService {
         return bugRepository.countByDueBetween(LocalDate.now(), in7Days);
     }
 
+    // Graph data
+
+    public long countBugBySeverity(String severity) {
+        return bugRepository.countBugsBySeverity(severity);
+    }
+
+    public long countBugByStatus(String status) {
+        return bugRepository.countBugsByStatus(status);
+    }
+
+    public int countBugsCreatedBetweenDates(LocalDate startDate, LocalDate endDate) {
+        List<Bug> bugs = bugRepository.findByCreatedBetween(startDate, endDate);
+        int bugCount = bugs.size();
+
+        return bugCount;
+    }
+
+    public Map<LocalDate, Long> getBugCountsOverTime() {
+        List<Object[]> data = bugRepository.countBugsByDate();
+
+        Map<LocalDate, Long> bugCounts = new LinkedHashMap<>();
+
+        for (Object[] row : data) {
+            LocalDate date = (LocalDate) row[0];
+            Long count = (Long) row[1];
+            bugCounts.put(date, count);
+        }
+
+        return bugCounts;
+    }
+
+    public List<Map<String, Object>> getBugDataForStackedBarChart() {
+        List<Map<String, Object>> bugDataList = new ArrayList<>();
+
+        // Fetch unresolved bug data from the repository
+        List<Bug> unresolvedBugs = bugRepository.findByStatusIn(Arrays.asList("New", "In-Progress"));
+
+        // Group bugs by project and priority
+        Map<String, Map<String, Integer>> projectPriorityMap = new HashMap<>();
+
+        for (Bug bug : unresolvedBugs) {
+            String projectName = bug.getProject().getName();
+            String priority = bug.getPriority();
+
+            projectPriorityMap.computeIfAbsent(projectName, k -> new HashMap<>());
+            projectPriorityMap.get(projectName).merge(priority, 1, Integer::sum);
+        }
+
+        // Convert the map into a list
+        for (Map.Entry<String, Map<String, Integer>> entry : projectPriorityMap.entrySet()) {
+            Map<String, Object> bugData = new HashMap<>();
+            bugData.put("project", entry.getKey());
+            bugData.putAll(entry.getValue());
+            bugDataList.add(bugData);
+        }
+
+        return bugDataList;
+    }
 
 }

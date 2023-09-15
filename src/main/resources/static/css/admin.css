@@ -979,3 +979,76 @@ body::-webkit-scrollbar {
     visibility: visible;
     opacity: 1;
 }
+
+/* REPORT PAGE STYLES */
+
+.report-cards-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+.report-card {
+    height: 100px; /* Adjust the height as needed */
+    margin-bottom: 20px; /* Equal gap between cards */
+    transition: all 0.5s ease;
+    border-radius: 10px;
+    background-color: #f1f1f1;
+}
+
+.small-card {
+    width: calc(25% - 10px); /* 4 cards in a row with gaps */
+}
+
+.large-card {
+    width: calc(50% - 10px); /* 2 large cards in a row with gaps */
+    height: auto;
+}
+
+.medium-card {
+    width: calc(25% - 10px); /* 2 medium cards in a row with gaps */
+    height: auto;
+}
+
+.report-card:hover {
+    transform: scale(1.05);
+}
+
+.report-count-content {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.report-number {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+.report-count-title {
+    font-size: 16px;
+}
+
+.report-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+.chart-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.positive-change {
+    color: #17ce17;
+}
+
+.negative-change {
+    color: #f33d3d;
+}
