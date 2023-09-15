@@ -132,6 +132,10 @@ public class AdminBugController {
         Set<User> associatedUsers = bug.getProject().getAssociatedUsers();
         mav.addObject("associatedUsers", associatedUsers);
 
+        // Get the recommended developers based on least busy
+        List<User> recommendedDevelopers = bugService.recommendDevelopersForBug(bug);
+        mav.addObject("recommendedDevelopers", recommendedDevelopers);
+
         String email = principal.getName();
         User currentUser = userService.getUserByEmail(email);
         int notificationCount = notificationService.countUnreadNotifications(currentUser);

@@ -37,6 +37,7 @@ public interface BugRepository extends JpaRepository<Bug, Integer> {
     @Query("SELECT b.created, COUNT(b) FROM Bug b GROUP BY b.created")
     List<Object[]> countBugsByDate();
 
-
     List<Bug> findByStatusIn(List<String> aNew);
+
+    long countBugsByAssignedUserAndProject(User developer, Project project);
 }

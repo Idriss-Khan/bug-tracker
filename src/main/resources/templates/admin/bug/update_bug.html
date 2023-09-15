@@ -51,6 +51,14 @@
       </div>
 
       <div class="form-group">
+        <strong>Recommended Developers:</strong>
+        <ul>
+          <li th:each="developer : ${recommendedDevelopers}" th:text="${developer}" style="margin-left: 40px;"></li>
+        </ul>
+      </div>
+
+
+      <div class="form-group">
         <label for="assignedUser">Assigned Developer:</label>
         <select id="assignedUser" name="assignedUser.id">
           <option value="" th:if="${bug.assignedUser == null}">Select a Developer</option>

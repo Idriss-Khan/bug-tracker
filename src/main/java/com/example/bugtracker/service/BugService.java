@@ -20,6 +20,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class BugService {
@@ -151,7 +152,6 @@ public class BugService {
     }
 
     // Graph data
-
     public long countBugBySeverity(String severity) {
         return bugRepository.countBugsBySeverity(severity);
     }
@@ -208,5 +208,30 @@ public class BugService {
 
         return bugDataList;
     }
+
+    // Recommendation System
+    public List<User> recommendDevelopersForBug(Bug bug) {
+        // Get the associated users (developers) of the project
+        Set<User> associatedUsers = bug.getProject().getAssociatedUsers();
+
+        // Create a map to store developer IDs as keys and the count of bugs assigned to them as values
+        Map<Integer, Long> bugCountByDeveloperId = new HashMap<>();
+
+        for (User developer : associatedUsers) {
+            // Count the number of bugs assigned to each developer in the project
+            long bugCount = bugRepository.countBugsByAssignedUserAndProject(developer, bug.getProject());
+            bugCountByDeveloperId.put(developer.getId(), bugCount);
+        }
+
+        // Sort the developers by the number of bugs assigned to them in ascending order
+        List<User> sortedDevelopers = associatedUsers.stream()
+                .sorted(Comparator.comparingLong(developer -> bugCountByDeveloperId.getOrDefault(developer.getId(), 0L)))
+                .collect(Collectors.toList());
+
+        // Return the first two developers (the least busy ones)
+        int numberOfDevelopersToRecommend = Math.min(sortedDevelopers.size(), 2);
+        return sortedDevelopers.subList(0, numberOfDevelopersToRecommend);
+    }
+
 
 }
