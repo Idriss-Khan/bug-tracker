@@ -78,7 +78,7 @@ public class AdminUserController {
         User currentUser = userService.getUserByEmail(email);
 
         // Fetch comments made by the user
-        List<Comment> userComments = commentService.getCommentsByUser(currentUser);
+        List<Comment> userComments = commentService.getCommentsByUser(user);
         mav.addObject("userComments", userComments);
 
         int notificationCount = notificationService.countUnreadNotifications(currentUser);
