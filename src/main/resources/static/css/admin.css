@@ -176,15 +176,29 @@ body::-webkit-scrollbar {
 /* !---- Content Styles ----! */
 
 .home_content {
-    padding-left: 78px; /* Adjust the initial padding here to match the sidebar width */
+    padding-left: 78px;
     transition: all 0.5s ease;
 }
 
 .sidebar.active ~ .home_content {
     z-index: 100;
-    padding-left: 240px; /* Adjust the expanded padding here to match the expanded sidebar width */
+    padding-left: 240px;
+}
+.sidebar .logout-form {
+    display: none;
 }
 
+.sidebar ul li a:hover + .logout-form {
+    display: block;
+}
+
+.sidebar ul li .logout-form {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    width: 100%;
+}
 
 /* HEADING Styles */
 .heading-section {

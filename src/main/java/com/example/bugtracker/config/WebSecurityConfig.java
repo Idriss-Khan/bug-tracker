@@ -50,8 +50,14 @@ public class WebSecurityConfig{
                 .requestMatchers("/edit-profile").authenticated()
                 .requestMatchers("/edit-profile-image").authenticated()
                 .requestMatchers("/ticket/submit").authenticated()
-                // ONLY ADMINS CAN ACCESS ADMIN PAGES
-                .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
+
+                // DEVELOPER DASHBOARD ACCESS AUTHORITY
+                .requestMatchers("/admin").hasAnyAuthority("ADMIN", "DEVELOPER", "PROJECT MANAGER")
+                .requestMatchers("/admin/profile/**").hasAnyAuthority("ADMIN", "DEVELOPER", "PROJECT MANAGER")
+                .requestMatchers("/admin/project/**").hasAnyAuthority("ADMIN", "PROJECT MANAGER")
+                .requestMatchers("/admin/report/**").hasAnyAuthority("ADMIN", "PROJECT MANAGER")
+                .requestMatchers("/admin/user/**").hasAuthority("ADMIN")
+                .requestMatchers("/admin/bug/**").hasAnyAuthority("ADMIN", "DEVELOPER", "PROJECT MANAGER")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin().loginPage("/login")

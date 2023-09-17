@@ -59,7 +59,7 @@ public class AdminBugController {
     @PostMapping("/submit")
     public RedirectView submitBug(@ModelAttribute("bug") Bug bug, @RequestParam("bugImages") List<MultipartFile> bugImages) {
         bugService.createBug(bug, bugImages);
-        return new RedirectView("/admin/project");
+        return new RedirectView("/admin");
     }
 
     /**

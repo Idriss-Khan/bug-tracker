@@ -33,21 +33,21 @@
             </a>
             <span class="tooltip">Dashboard</span>
         </li>
-        <li>
+        <li sec:authorize="hasAnyAuthority('ADMIN', 'PROJECT MANAGER')">
             <a th:href="@{/admin/report}">
                 <i class='bx bx-bar-chart-alt'></i>
                 <span class="links_name">Reports</span>
             </a>
             <span class="tooltip">Reports</span>
         </li>
-        <li>
-            <a th:href="@{/admin/project}" href="#">
+        <li sec:authorize="hasAnyAuthority('ADMIN', 'PROJECT MANAGER')">
+            <a th:href="@{/admin/project}">
                 <i class='bx bx-folder'></i>
                 <span class="links_name">Projects</span>
             </a>
             <span class="tooltip">Projects</span>
         </li>
-        <li>
+        <li sec:authorize="hasAnyAuthority('ADMIN')">
             <a th:href="@{/admin/user}" href="#">
                 <i class='bx bx-user'></i>
                 <span class="links_name">Users</span>
@@ -60,6 +60,15 @@
                 <span class="links_name">Home</span>
             </a>
             <span class="tooltip">Home</span>
+        </li>
+        <li>
+            <a href="#" onclick="document.getElementById('logout-form').submit();">
+                <i class='bx bx-log-out'></i>
+                <span class="links_name">Logout</span>
+            </a>
+            <span class="tooltip">Logout</span>
+            <form id="logout-form" class="logout-form" method="post" th:action="@{/logout}">
+            </form>
         </li>
     </ul>
     <div class="sidebar_btn">
